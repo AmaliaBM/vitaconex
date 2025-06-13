@@ -1,27 +1,47 @@
-
-
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import { AuthContext } from "../../context/auth.context"; // Asegúrate que la ruta es correcta
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Previene el refresh
+    event.preventDefault();
     try {
-         const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        { email, password }
+      );
 
-      console.log("Login success:", response.data);
-      // Aquí podrías guardar el token o redirigir al dashboard
+      const { token, user } = response.data;;
+
+      // 1. Guarda el token
+      storeToken(token);
+
+      // 2. Llama a authenticateUser() para actualizar el contexto
+      await authenticateUser();
+
+      // 3. Redirige según el rol del usuario
+      if (user.role === "paciente") {
+        navigate("/home");
+      } else if (user.role === "sanitario") {
+        navigate("/home-medico");
+      } else if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        setError("Rol desconocido.");
+      }
+
     } catch (err) {
       console.error("Login error:", err);
       setError("Email o contraseña incorrectos.");
