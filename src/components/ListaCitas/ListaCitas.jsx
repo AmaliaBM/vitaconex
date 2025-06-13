@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../context/auth.context" 
+import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -17,27 +17,27 @@ function ListaCitas() {
       try {
         let response;
 
+        const config = {
+          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
+        };
+
         if (user.role === "paciente") {
-          response = await axios.get(`${API_URL}/api/pacientes/appointments`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
-          });
+          response = await axios.get(`${API_URL}/api/pacientes/appointments`, config);
         } else if (user.role === "medico") {
-          response = await axios.get(`${API_URL}/api/medicos/appointments`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
-          });
+          response = await axios.get(`${API_URL}/api/medicos/appointments`, config);
+        } else if (user.role === "admin") {
+          response = await axios.get(`${API_URL}/api/admin/appointments`, config);
         }
 
         setAppointments(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error al cargar citas:", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (user) {
-      fetchAppointments();
-    }
+    if (user) fetchAppointments();
   }, [user]);
 
   if (loading) return <p>Cargando citas...</p>;
@@ -45,7 +45,9 @@ function ListaCitas() {
   return (
     <Row xs={1} md={2} className="g-4">
       {appointments.length === 0 ? (
-        <Col><p className="text-center">No hay citas registradas.</p></Col>
+        <Col>
+          <p className="text-center">No hay citas registradas.</p>
+        </Col>
       ) : (
         appointments.map((cita, idx) => (
           <Col key={idx}>
@@ -53,9 +55,10 @@ function ListaCitas() {
               <Card.Body>
                 <Card.Title>{cita.date}</Card.Title>
                 <Card.Text>
-                  {user.role === "paciente"
-                    ? `Especialista: ${cita.specialist}`
-                    : `Paciente: ${cita.patientName}`}
+                  {user.role === "paciente" && `Especialista: ${cita.specialist}`}
+                  {user.role === "medico" && `Paciente: ${cita.patientName}`}
+                  {user.role === "admin" &&
+                    `Paciente: ${cita.patientName} | Especialista: ${cita.specialist}`}
                 </Card.Text>
               </Card.Body>
             </Card>

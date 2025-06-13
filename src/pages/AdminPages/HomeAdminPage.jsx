@@ -1,18 +1,17 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
-import TabNavegacion from "../../components/TabNavegacion/TabNavegacion";
 import { AuthContext } from "../../context/auth.context";
 
-function HomePacientePage() {
+function HomeAdminPage() {
   const { user, isLoading, logOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logOutUser();           // elimina token y usuario del contexto
-    navigate("/login");     // redirige al login
+    logOutUser();
+    navigate("/login");
   };
 
   return (
@@ -26,31 +25,20 @@ function HomePacientePage() {
 
       <Card className="text-center mb-4">
         <Card.Body>
-          <Card.Title>📅 Tus citas</Card.Title>
+          <Card.Title>📅 Gestión de citas</Card.Title>
           <Card.Text>
-            Aquí puedes ver tus próximas citas y navegar por tu espacio.
+            Aquí puedes ver citas y navegar por tu espacio de administración.
           </Card.Text>
         </Card.Body>
       </Card>
 
       {!isLoading ? (
-        <ListaCitas rol="paciente" />
+        <ListaCitas rol="admin" />
       ) : (
-        <p className="text-center">Cargando tus citas...</p>
+        <p className="text-center">Cargando citas...</p>
       )}
-
-      {/* Menú de navegación fijo en móvil */}
-      <div className="fixed-bottom bg-white border-top p-2 d-md-none">
-        <TabNavegacion />
-      </div>
-
-      {/* Menú de navegación normal en pantallas grandes */}
-      <div className="d-none d-md-block mt-4">
-        <TabNavegacion />
-      </div>
     </div>
   );
 }
 
-export default HomePacientePage;
-
+export default HomeAdminPage;

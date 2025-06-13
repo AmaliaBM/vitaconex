@@ -1,15 +1,26 @@
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/auth.context';
 
-function TabNavegacion() {
+function TabNavegacionTres() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useContext(AuthContext);
 
-  const currentPath = location.pathname.split('/')[1] || 'home'; //Esta línea toma la primera sección visible de la ruta URL y si no existe (por ejemplo, en la página principal /), asume que la pestaña activa es 'home'. Pestaña marcada en el menú coincidirá con la URL actual.
+  const currentPath = location.pathname.split('/')[1] || 'home';
 
   const handleSelect = (key) => {
-    navigate(`/${key}`);
+    if (key === "home") {
+      if (user?.role === "admin") {
+        navigate("/home-admin");
+      } else if (user?.role === "sanitario") {
+        navigate("/home-medico");
+      }
+    } else {
+      navigate(`/${key}`);
+    }
   };
 
   return (
@@ -40,20 +51,11 @@ function TabNavegacion() {
         }
       />
       <Tab
-        eventKey="journaling"
-        title={
-          <span className="tab-title">
-            <div>❤️</div>
-            <div className="d-none d-md-block">Mi diario</div>
-          </span>
-        }
-      />
-      <Tab
         eventKey="informes"
         title={
           <span className="tab-title">
-            <div>📄</div>
-            <div className="d-none d-md-block">Informes</div>
+            <div>👥</div>
+            <div className="d-none d-md-block">Usuarios</div>
           </span>
         }
       />
@@ -61,4 +63,4 @@ function TabNavegacion() {
   );
 }
 
-export default TabNavegacion;
+export default TabNavegacionTres;
