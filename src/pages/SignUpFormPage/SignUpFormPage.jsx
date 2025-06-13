@@ -6,13 +6,14 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-function SignUpForm() {
+function SignUpFormPage() {
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    birthdate: "",
     email: "",
     password: "",
     agreedToTerms: false,
@@ -26,41 +27,48 @@ function SignUpForm() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  event.stopPropagation();
 
-    const { firstName, lastName, email, password, agreedToTerms } = formData;
+  const { firstName, lastName, birthdate, email, password, agreedToTerms } = formData;
 
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password.trim() || !agreedToTerms) {
-      alert("Please complete all required fields and agree to terms.");
-      return;
-    }
+  if (!firstName.trim() || !lastName.trim() || !birthdate || !email.trim() || !password.trim() || !agreedToTerms) {
+    alert("Please complete all required fields and agree to terms.");
+    return;
+  }
 
-    setValidated(true);
+  setValidated(true);
 
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: firstName,
-          lastname: lastName,
-          email,
-          password,
-          role: "paciente",
-        }),
-      });
+  try {
+    const response = await fetch("http://localhost:5005/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: firstName,
+        lastname: lastName,
+        datebirth: birthdate,
+        email,
+        password,
+        role: "paciente",
+      }),
+    });
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.msg || "Error en el registro");
+     let data;
+  try {
+    data = await response.json(); // intenta parsear JSON
+  } catch (err) {
+    data = null; // si no es JSON, lo ignoramos
+  }
 
-      alert("Tus datos se han enviado, enseguida lo verificará el departamento de administración.");
-      navigate("/login");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+    if (!response.ok) throw new Error(data.msg || "Error en el registro: contraseña o email no");
+
+    alert("Tu registro fue enviado. Administración debe aprobar tu cuenta antes de poder acceder.");
+    navigate("/login");
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -87,6 +95,19 @@ function SignUpForm() {
             onChange={handleChange}
           />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="validationCustomBirthdate">
+        <Form.Label>Fecha de nacimiento</Form.Label>
+        <Form.Control
+          required
+          type="date"
+          name="birthdate"
+          value={formData.birthdate}
+          onChange={handleChange}
+        />
+        <Form.Control.Feedback type="invalid">
+          La fecha de nacimiento es obligatoria.
+        </Form.Control.Feedback>
+      </Form.Group>
       </Row>
 
       <Form.Group className="mb-3" controlId="validationCustomEmail">
@@ -135,4 +156,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default SignUpFormPage;
