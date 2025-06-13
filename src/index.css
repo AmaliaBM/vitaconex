@@ -80,3 +80,13 @@
 .login-page {
   background-color: #f0f8ff;
 }
+
+/*home paciente*/
+
+.nav-tabs-responsive .nav-link {
+  text-align: center;
+}
+
+.nav-tabs-responsive .nav-link span.d-md-inline {
+  margin-left: 6px;
+}
