@@ -56,9 +56,9 @@ const handleSubmit = async (event) => {
 
      let data;
   try {
-    data = await response.json(); // intenta parsear JSON
+    data = await response.json(); // parsear JSON
   } catch (err) {
-    data = null; // si no es JSON, lo ignoramos
+    data = null;
   }
 
     if (!response.ok) throw new Error(data.msg || "Error en el registro: contraseña o email no");
