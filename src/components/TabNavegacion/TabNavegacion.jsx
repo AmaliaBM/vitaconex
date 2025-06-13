@@ -1,4 +1,3 @@
-
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -6,7 +5,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function TabNavegacion() {
   const navigate = useNavigate();
   const location = useLocation();
-
 
   const currentPath = location.pathname.split('/')[1] || 'home';
 
@@ -25,19 +23,39 @@ function TabNavegacion() {
     >
       <Tab
         eventKey="home"
-        title={<span>🏠 <span className="d-none d-md-inline">Inicio</span></span>}
+        title={
+          <span className="tab-title">
+            <div>🏠</div>
+            <div className="d-none d-md-block">Inicio</div>
+          </span>
+        }
       />
       <Tab
         eventKey="citas"
-        title={<span>📅 <span className="d-none d-md-inline">Citas</span></span>}
+        title={
+          <span className="tab-title">
+            <div>📅</div>
+            <div className="d-none d-md-block">Citas</div>
+          </span>
+        }
       />
       <Tab
         eventKey="journaling"
-        title={<span>❤️ <span className="d-none d-md-inline">Mi diario</span></span>}
+        title={
+          <span className="tab-title">
+            <div>❤️</div>
+            <div className="d-none d-md-block">Mi diario</div>
+          </span>
+        }
       />
       <Tab
         eventKey="informes"
-        title={<span>📄 <span className="d-none d-md-inline">Informes</span></span>}
+        title={
+          <span className="tab-title">
+            <div>📄</div>
+            <div className="d-none d-md-block">Informes</div>
+          </span>
+        }
       />
     </Tabs>
   );

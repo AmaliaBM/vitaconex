@@ -84,9 +84,21 @@
 /*home paciente*/
 
 .nav-tabs-responsive .nav-link {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0 !important;
+  min-width: 40px !important; /* para que quepa el emoji */
   text-align: center;
 }
 
-.nav-tabs-responsive .nav-link span.d-md-inline {
-  margin-left: 6px;
+.tab-title div:first-child {
+  font-size: 1.5rem; /* tamaño del emoji */
+  line-height: 1;
+}
+
+.tab-title div:last-child {
+  margin-top: 4px;
+  font-size: 0.85rem;
 }
