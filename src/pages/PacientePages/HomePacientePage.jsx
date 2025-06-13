@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
-import TabNavegacion from "../../components/TabNavegacion/TabNavegacion";
 import { AuthContext } from "../../context/auth.context";
 
 function HomePacientePage() {
@@ -38,16 +37,6 @@ function HomePacientePage() {
       ) : (
         <p className="text-center">Cargando tus citas...</p>
       )}
-
-      {/* Menú de navegación fijo en móvil */}
-      <div className="fixed-bottom bg-white border-top p-2 d-md-none">
-        <TabNavegacion />
-      </div>
-
-      {/* Menú de navegación normal en pantallas grandes */}
-      <div className="d-none d-md-block mt-4">
-        <TabNavegacion />
-      </div>
     </div>
   );
 }
