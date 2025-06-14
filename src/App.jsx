@@ -4,12 +4,14 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpFormPage from "./pages/SignUpFormPage/SignUpFormPage";
 import HomePacientePage from "./pages/PacientePages/HomePacientePage";
 import HomeSanitarioPage from "./pages/SanitariosPages/HomeSanitarioPage";
-import CitasPage from "./pages/PacientePages/CitasPage";
+import CitasPage from "./pages/CitasPage";
 import JournalingPage from "./pages/PacientePages/JournalingPage";
-import InformesPage from "./pages/PacientePages/InformesPage";
+import InformesPage from "./pages/InformesPage";
 import LayoutAdminMed from "./components/Layout/LayoutAdminMed";
 import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
+import CitasPacientePage from "./pages/PacientePages/CitasPacientePage";
+import InformePacientePage from "./pages/PacientePages/InformePacientePage"
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './App.css';
@@ -29,6 +31,8 @@ function App() {
             <Route element={<LayoutPaciente />}>
             <Route path="/home" element={<HomePacientePage />} />
             <Route path="/journaling" element={<JournalingPage />} />
+            <Route path="/citas" element={<CitasPacientePage />} />
+            <Route path="/informes" element={<InformePacientePage />} /> 
             </Route>
           </Route>
             {/* Rutas de admin y médicos con layout persistente y rutas protegida, se envuelve con ruta protección*/}
