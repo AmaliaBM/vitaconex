@@ -58,7 +58,7 @@ function ListaCitas() {
                   {user.role === "paciente" && `Especialista: ${cita.specialist}`}
                   {user.role === "medico" && `Paciente: ${cita.patientName}`}
                   {user.role === "admin" &&
-                    `Paciente: ${cita.patientName} | Especialista: ${cita.specialist}`}
+                    `Paciente: ${cita.pacienteId.name} ${cita.pacienteId.lastname} | Especialista: ${cita.medicoId.name} ${cita.medicoId.lastname}`}
                 </Card.Text>
               </Card.Body>
             </Card>
