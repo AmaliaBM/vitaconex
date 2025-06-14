@@ -1,94 +1,86 @@
-
-import React, { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-
+const AuthContext = createContext();
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-
-const AuthContext = React.createContext();
-
 function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // objeto completo: id, role, name, etc.
+  const [isValidatingToken, setIsValidatingToken] = useState(true);
   const [authError, setAuthError] = useState(null);
 
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
   };
 
-  const authenticateUser = () => {
-    // Get the stored token from the localStorage
-    const storedToken = localStorage.getItem("authToken");
-
-    // If the token exists in the localStorage
-    if (storedToken) {
-      // We must send the JWT token in the request's "Authorization" Headers
-      axios
-        .get(`${API_URL}/api/auth/verify`, {
-          headers: { Authorization: `Bearer ${storedToken}` },
-        })
-        .then((response) => {
-          console.log(response)
-          // If the server verifies that JWT token is valid
-          const user = response.data.payload;
-          // Update state variables
-          setIsLoggedIn(true);
-          setIsLoading(false);
-          setUser(user);
-        })
-        .catch((error) => {
-          if (error) {
-            setAuthError(error.response.data.message);
-            return;
-          }
-          // If the server sends an error response (invalid token)
-          // Update state variables
-          setIsLoggedIn(false);
-          setIsLoading(false);
-          setUser(null);
-        });
-    } else {
-      // If the token is not available
-      setIsLoggedIn(false);
-      setIsLoading(false);
-      setUser(null);
-    }
+  const removeToken = () => {
+    localStorage.removeItem("authToken");
   };
 
-  const removeToken = () => {
-    // Upon logout, remove the token from the localStorage
-    localStorage.removeItem("authToken");
+  const authenticateUser = async () => {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      setIsLoggedIn(false);
+      setUser(null);
+      setIsValidatingToken(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${API_URL}/api/auth/verify`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(response.data.payload); // esto incluye id, role, etc.
+      setIsLoggedIn(true);
+      setAuthError(null);
+    } catch (err) {
+      console.error("Error verificando token:", err);
+      setUser(null);
+      setIsLoggedIn(false);
+      if (err.response?.data?.msg) {
+        setAuthError(err.response.data.msg);
+      } else {
+        setAuthError("Token inválido o expirado");
+      }
+    } finally {
+      setIsValidatingToken(false);
+    }
   };
 
   const logOutUser = () => {
     removeToken();
-    authenticateUser();
+    setUser(null);
+   setIsLoggedIn(false);
   };
 
   useEffect(() => {
-    // Run the function after the initial render,
-    // after the components in the App render for the first time.
     authenticateUser();
   }, []);
 
+  const contextValue = {
+    isLoggedIn,
+    user,
+    authError,
+    authenticateUser,
+    storeToken,
+    logOutUser,
+  };
+
+  if (isValidatingToken) {
+    return <h3>...validando sesión</h3>; // Puedes poner un spinner o loader aquí
+  }
+
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn,
-        isLoading,
-        user,
-        storeToken,
-        authenticateUser,
-        logOutUser,
-        authError,
-      }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {props.children}
     </AuthContext.Provider>
   );
 }
 
-export { AuthProviderWrapper, AuthContext };
+export { AuthContext, AuthProviderWrapper };
