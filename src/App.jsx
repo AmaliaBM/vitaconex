@@ -31,8 +31,8 @@ function App() {
             <Route element={<LayoutPaciente />}>
             <Route path="/home" element={<HomePacientePage />} />
             <Route path="/journaling" element={<JournalingPage />} />
-            <Route path="/citas" element={<CitasPacientePage />} />
-            <Route path="/informes" element={<InformePacientePage />} /> 
+            <Route path="/citas-paciente" element={<CitasPacientePage />} />
+            <Route path="/informes-paciente" element={<InformePacientePage />} /> 
             </Route>
           </Route>
             {/* Rutas de admin y médicos con layout persistente y rutas protegida, se envuelve con ruta protección*/}

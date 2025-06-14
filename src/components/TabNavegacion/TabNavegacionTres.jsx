@@ -2,7 +2,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AuthContext } from "../../context/auth.context"
+import { AuthContext } from "../../context/auth.context";
+
 function TabNavegacionTres() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,14 +21,24 @@ function TabNavegacionTres() {
   }
 
   const handleSelect = (key) => {
-    if (key === "home") {
-      if (user?.role === "admin") {
-        navigate("/home-admin");
-      } else if (user?.role === "sanitario") {
-        navigate("/home-medico");
-      }
-    } else {
-      navigate(`/${key}`);
+    if (!user) return; // Seguridad extra
+
+    switch (key) {
+      case "home":
+        if (user.role === "admin") {
+          navigate("/home-admin");
+        } else if (user.role === "sanitario") {
+          navigate("/home-medico");
+        }
+        break;
+      case "citas":
+        navigate("/citas"); // Ruta compartida
+        break;
+      case "informes":
+        navigate("/informes"); // Ruta compartida
+        break;
+      default:
+        break;
     }
   };
 
@@ -70,6 +81,5 @@ function TabNavegacionTres() {
     </Tabs>
   );
 }
-
 
 export default TabNavegacionTres;
