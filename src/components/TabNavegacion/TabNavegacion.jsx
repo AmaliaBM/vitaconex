@@ -1,12 +1,23 @@
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 
 function TabNavegacion() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentPath = location.pathname.split('/')[1] || 'home'; //Esta línea toma la primera sección visible de la ruta URL y si no existe (por ejemplo, en la página principal /), asume que la pestaña activa es 'home'. Pestaña marcada en el menú coincidirá con la URL actual.
+  const path = location.pathname;
+
+  let activeKey = "";
+  if (path.includes("home")) {
+    activeKey = "home";
+  } else if (path.includes("citas")) {
+    activeKey = "citas";
+  } else if (path.includes("journaling")) {
+    activeKey = "journaling";
+  } else if (path.includes("informes")) {
+    activeKey = "informes";
+  }
 
   const handleSelect = (key) => {
     navigate(`/${key}`);
@@ -14,7 +25,7 @@ function TabNavegacion() {
 
   return (
     <Tabs
-      activeKey={currentPath}
+      activeKey={activeKey}
       onSelect={handleSelect}
       id="tabs-navegacion"
       className="nav-tabs-responsive"
@@ -60,5 +71,6 @@ function TabNavegacion() {
     </Tabs>
   );
 }
+
 
 export default TabNavegacion;
