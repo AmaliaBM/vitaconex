@@ -35,7 +35,7 @@ function TabNavegacionTres() {
         navigate("/citas");
         break;
       case "users": // <- Cambiado aquí también
-        navigate("/usuarios"); // <- Asegúrate que esta ruta existe
+        navigate("/usuariospage"); // <- Asegúrate que esta ruta existe
         break;
       default:
         break;

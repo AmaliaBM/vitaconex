@@ -12,7 +12,6 @@ import LayoutAdminMed from "./components/Layout/LayoutAdminMed";
 import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
 import CitasPacientePage from "./pages/PacientePages/CitasPacientePage";
-import InformePacientePage from "./pages/PacientePages/InformePacientePage"
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -28,13 +27,17 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpFormPage />} />
 
+              <Route path="/informes" element={<ProtectedRoute allowedRoles={["paciente", "sanitario"]}>
+              <InformesPage />
+              </ProtectedRoute>
+                }/>
+
             {/* Rutas de paciente con layout persistente y rutas protegidas, se envuelve con la ruta de protección*/}
           <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
             <Route element={<LayoutPaciente />}>
             <Route path="/home" element={<HomePacientePage />} />
             <Route path="/journaling" element={<JournalingPage />} />
             <Route path="/citas-paciente" element={<CitasPacientePage />} />
-            <Route path="/informes-paciente" element={<InformePacientePage />} />
              
             </Route>
           </Route>
@@ -44,7 +47,6 @@ function App() {
             <Route path="/home-admin" element={<HomeAdminPage />} />
             <Route path="/home-medico" element={<HomeSanitarioPage />} />
             <Route path="/citas" element={<CitasPage />} />
-            <Route path="/informes" element={<InformesPage />} />
             <Route path="/usuariospage" element={<UsuariosPage />} /> 
             </Route>
             </Route>
