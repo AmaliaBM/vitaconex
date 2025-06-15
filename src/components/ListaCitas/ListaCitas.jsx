@@ -24,7 +24,7 @@ function ListaCitas() {
         if (user.role === "paciente") {
           response = await axios.get(`${API_URL}/api/pacientes/appointments`, config);
         } else if (user.role === "medico") {
-          response = await axios.get(`${API_URL}/api/medicos/appointments`, config);
+          response = await axios.get(`${API_URL}/api/sanitarios/appointments`, config);
         } else if (user.role === "admin") {
           response = await axios.get(`${API_URL}/api/admin/appointments`, config);
         }
@@ -56,9 +56,9 @@ function ListaCitas() {
                 <Card.Title>{cita.date}</Card.Title>
                 <Card.Text>
                   {user.role === "paciente" && `Especialista: ${cita.specialist}`}
-                  {user.role === "medico" && `Paciente: ${cita.patientName}`}
+                  {user.role === "sanitario" && `Paciente: ${cita.patientName}`}
                   {user.role === "admin" &&
-                    `Paciente: ${cita.pacienteId.name} ${cita.pacienteId.lastname} | Especialista: ${cita.medicoId.name} ${cita.medicoId.lastname}`}
+                    `Paciente: ${cita.pacienteId.name} ${cita.pacienteId.lastname} | Especialista: ${cita.sanitarioId.name} ${cita.sanitarioId.lastname}`}
                 </Card.Text>
               </Card.Body>
             </Card>

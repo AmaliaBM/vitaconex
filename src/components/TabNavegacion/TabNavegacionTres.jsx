@@ -16,12 +16,12 @@ function TabNavegacionTres() {
     activeKey = "home";
   } else if (path.includes("citas")) {
     activeKey = "citas";
-  } else if (path.includes("informes")) {
-    activeKey = "informes";
+  } else if (path.includes("usuarios")) { // <- Cambiado aquí
+    activeKey = "users";
   }
 
   const handleSelect = (key) => {
-    if (!user) return; // Seguridad extra
+    if (!user) return;
 
     switch (key) {
       case "home":
@@ -32,10 +32,10 @@ function TabNavegacionTres() {
         }
         break;
       case "citas":
-        navigate("/citas"); // Ruta compartida
+        navigate("/citas");
         break;
-      case "informes":
-        navigate("/informes"); // Ruta compartida
+      case "users": // <- Cambiado aquí también
+        navigate("/usuarios"); // <- Asegúrate que esta ruta existe
         break;
       default:
         break;
@@ -70,7 +70,7 @@ function TabNavegacionTres() {
         }
       />
       <Tab
-        eventKey="informes"
+        eventKey="users"
         title={
           <span className="tab-title">
             <div>👥</div>
