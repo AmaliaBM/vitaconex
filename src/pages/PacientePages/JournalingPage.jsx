@@ -18,7 +18,7 @@ function JournalingPage() {
 
       <hr className="my-5" />
 
-      <ListaJournaling refresh={refresh} onRefresh={triggerRefresh} />
+      <ListaJournaling refresh={refresh} onRefresh={triggerRefresh} /> 
     </div>
   );
 }

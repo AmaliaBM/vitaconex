@@ -55,12 +55,12 @@ function ListaInformes() {
           <Col key={idx}>
             <Card>
               <Card.Body>
-                <Card.Title>Fecha: {new Date(informe.date).toLocaleDateString()}</Card.Title>
-                <Card.Text>
-                  {user.role === "paciente" && `Redactado por: ${informe.sanitarioName}`}
-                  {user.role === "sanitario" && `Paciente: ${informe.pacienteName}`}
-                </Card.Text>
-                <Card.Text>{informe.content}</Card.Text>
+              <Card.Title>Fecha: {new Date(informe.datetime).toLocaleDateString()}</Card.Title>
+              <Card.Text>
+                {user.role === "paciente" && `Redactado por: ${informe.medicoName || 'Sanitario'}`}
+                {user.role === "sanitario" && `Paciente: ${informe.pacienteName}`}
+              </Card.Text>
+              <Card.Text>{informe.contenido}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
