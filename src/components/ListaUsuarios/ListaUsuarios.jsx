@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
 
-function ListaUsuarios() {
+function ListaUsuarios({ busqueda }) {
   const { user } = useContext(AuthContext);
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,18 +39,25 @@ function ListaUsuarios() {
     if (user) fetchUsuarios();
   }, [user]);
 
+  const usuariosFiltrados = usuarios.filter((usuario) => {
+    const nombreCompleto = `${usuario.name} ${usuario.lastname}`.toLowerCase();
+    return nombreCompleto.includes(busqueda.toLowerCase());
+  });
+
   if (loading) return <p>Cargando usuarios...</p>;
 
   return (
     <Row xs={1} md={2} className="g-4">
-      {usuarios.length === 0 ? (
+      {usuariosFiltrados.length === 0 ? (
         <Col>
-          <p className="text-center">No hay usuarios disponibles.</p>
+          <p className="text-center">No hay usuarios que coincidan con la búsqueda.</p>
         </Col>
       ) : (
-        usuarios.map((usuario) => (
+        usuariosFiltrados.map((usuario) => (
           <Col key={usuario._id}>
-            <Card as={Link} to={`/paciente/${usuario._id}`} 
+            <Card
+              as={Link}
+              to={`/paciente/${usuario._id}`}
               style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
               className="h-100"
             >
@@ -70,4 +77,3 @@ function ListaUsuarios() {
 }
 
 export default ListaUsuarios;
-
