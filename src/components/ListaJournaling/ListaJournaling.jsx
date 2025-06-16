@@ -2,16 +2,24 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
-function ListaJournaling({ pacienteId }) {
+function ListaJournaling({ pacienteId, refresh }) {
   const { user } = useContext(AuthContext);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = import.meta.env.VITE_API_URL;
+
+   const moodEmojis = {
+    1: "😡", // Muy enfadado
+    2: "😭", // Triste llorando
+    3: "😕", // :-/
+    4: "😐", // Serio
+    5: "😄", // Feliz
+  };
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -23,10 +31,8 @@ function ListaJournaling({ pacienteId }) {
         let response;
 
         if (user.role === "paciente") {
-          // Paciente ve solo sus propios diarios
           response = await axios.get(`${API_URL}/api/pacientes/journaling`, config);
         } else if (user.role === "sanitario" && pacienteId) {
-          // Sanitario accede a los diarios del paciente seleccionado
           response = await axios.get(`${API_URL}/api/sanitarios/journaling/${pacienteId}`, config);
         }
 
@@ -54,8 +60,13 @@ function ListaJournaling({ pacienteId }) {
           <Col key={idx}>
             <Card>
               <Card.Body>
-                <Card.Title>{new Date(entry.date).toLocaleDateString()}</Card.Title>
-                <Card.Text>{entry.content}</Card.Text>
+                <Card.Title>{new Date(entry.fecha || entry.date).toLocaleDateString()}</Card.Title>
+                <Card.Text>
+                  <span style={{ fontSize: "1.5rem", marginRight: "0.5rem" }}>
+                    {moodEmojis[entry.estadoAnimo] || "❓"}
+                  </span>
+                  {entry.diario || entry.content}
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>
