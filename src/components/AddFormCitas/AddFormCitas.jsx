@@ -30,21 +30,28 @@ function AddFormCitas() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState(null);
 
-  const headers = {
-    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
   };
 
   // Cargar pacientes, médicos y citas
   useEffect(() => {
-    if (user?.role !== "admin") return;
+    if (!user || user.role !== "admin") return;
 
     const fetchData = async () => {
       try {
         const [resPatients, resDoctors, resAppointments] = await Promise.all([
-          axios.get(`${API_URL}/api/admin/users?role=paciente`, headers),
-          axios.get(`${API_URL}/api/admin/users?role=sanitario`, headers),
-          axios.get(`${API_URL}/api/admin/appointments`, headers),
+          axios.get(`${API_URL}/api/admin/users?role=paciente`, config),
+          axios.get(`${API_URL}/api/admin/users?role=sanitario`, config),
+          axios.get(`${API_URL}/api/admin/appointments`, config),
         ]);
+
+        console.log("Pacientes recibidos:", resPatients.data);
+        console.log("Doctores recibidos:", resDoctors.data);
+        console.log("Citas recibidas:", resAppointments.data);
+
         setPatients(resPatients.data);
         setDoctors(resDoctors.data);
         setAppointments(resAppointments.data);
@@ -55,7 +62,7 @@ function AddFormCitas() {
     };
 
     fetchData();
-  }, [user]);
+  }, [user, API_URL]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,14 +80,14 @@ function AddFormCitas() {
       setError(null);
       if (editingId) {
         // Editar cita
-        await axios.put(`${API_URL}/api/admin/appointments/${editingId}`, formData, headers);
+        await axios.put(`${API_URL}/api/admin/appointments/${editingId}`, formData, config);
       } else {
         // Crear nueva cita
-        await axios.post(`${API_URL}/api/admin/appointments`, formData, headers);
+        await axios.post(`${API_URL}/api/admin/appointments`, formData, config);
       }
 
       // Refrescar lista
-      const res = await axios.get(`${API_URL}/api/admin/appointments`, headers);
+      const res = await axios.get(`${API_URL}/api/admin/appointments`, config);
       setAppointments(res.data);
 
       // Resetear formulario
@@ -111,7 +118,7 @@ function AddFormCitas() {
     if (!window.confirm("¿Estás seguro de eliminar esta cita?")) return;
 
     try {
-      await axios.delete(`${API_URL}/api/admin/appointments/${id}`, headers);
+      await axios.delete(`${API_URL}/api/admin/appointments/${id}`, config);
       setAppointments((prev) => prev.filter((a) => a._id !== id));
     } catch (err) {
       console.error(err);
