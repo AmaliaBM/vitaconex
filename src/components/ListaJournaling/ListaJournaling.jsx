@@ -31,9 +31,9 @@ function ListaJournaling({ pacienteId, refresh }) {
         let response;
 
         if (user.role === "paciente") {
-          response = await axios.get(`${API_URL}/api/pacientes/journaling`, config);
+           response = await axios.get(`${API_URL}/api/pacientes/journals`, config);
         } else if (user.role === "sanitario" && pacienteId) {
-          response = await axios.get(`${API_URL}/api/sanitarios/journaling/${pacienteId}`, config);
+          response = await axios.get(`${API_URL}/api/sanitarios/journals/${pacienteId}`, config);
         }
 
         setEntries(response?.data || []);
@@ -45,7 +45,7 @@ function ListaJournaling({ pacienteId, refresh }) {
     };
 
     if (user) fetchEntries();
-  }, [user, pacienteId]);
+  }, [user, pacienteId, refresh]); // <- Asegura recarga cuando se agrega una nueva entrada
 
   if (loading) return <p>Cargando entradas del diario...</p>;
 
