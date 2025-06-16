@@ -23,33 +23,39 @@ function App() {
       <BrowserRouter>
         <div id="contenedor">
           <Routes>
+
+            {/* Rutas públicas */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpFormPage />} />
 
-              <Route path="/informes" element={<ProtectedRoute allowedRoles={["paciente", "sanitario"]}>
-              <InformesPage />
-              </ProtectedRoute>
-                }/>
+            {/* Rutas para PACIENTE */}
+            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
+              <Route element={<LayoutPaciente />}>
+                <Route path="/home" element={<HomePacientePage />} />
+                <Route path="/journaling" element={<JournalingPage />} />
+                <Route path="/citas-paciente" element={<CitasPacientePage />} />
+                <Route path="/informes" element={<InformesPage />} />
+              </Route>
+            </Route>
 
-            {/* Rutas de paciente con layout persistente y rutas protegidas, se envuelve con la ruta de protección*/}
-          <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
-            <Route element={<LayoutPaciente />}>
-            <Route path="/home" element={<HomePacientePage />} />
-            <Route path="/journaling" element={<JournalingPage />} />
-            <Route path="/citas-paciente" element={<CitasPacientePage />} />
-             
+            {/* Rutas para SANITARIO */}
+            <Route element={<ProtectedRoute allowedRoles={['sanitario']} />}>
+              <Route element={<LayoutAdminMed />}>
+                <Route path="/home-medico" element={<HomeSanitarioPage />} />
+                <Route path="/citas" element={<CitasPage />} />
+                <Route path="/informes" element={<InformesPage />} />
+              </Route>
             </Route>
-          </Route>
-            {/* Rutas de admin y médicos con layout persistente y rutas protegida, se envuelve con ruta protección*/}
-            <Route element={<ProtectedRoute allowedRoles={['admin', 'sanitario']} />}>
-            <Route element={<LayoutAdminMed />}>
-            <Route path="/home-admin" element={<HomeAdminPage />} />
-            <Route path="/home-medico" element={<HomeSanitarioPage />} />
-            <Route path="/citas" element={<CitasPage />} />
-            <Route path="/usuariospage" element={<UsuariosPage />} /> 
+
+            {/* Rutas para ADMIN */}
+            <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+              <Route element={<LayoutAdminMed />}>
+                <Route path="/home-admin" element={<HomeAdminPage />} />
+                <Route path="/usuariospage" element={<UsuariosPage />} />
+              </Route>
             </Route>
-            </Route>
+
           </Routes>
         </div>
       </BrowserRouter>
