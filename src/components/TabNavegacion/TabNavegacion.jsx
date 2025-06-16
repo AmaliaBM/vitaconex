@@ -1,6 +1,6 @@
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { useNavigate, useLocation} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function TabNavegacion() {
   const navigate = useNavigate();
@@ -11,8 +11,6 @@ function TabNavegacion() {
   let activeKey = "";
   if (path.includes("home")) {
     activeKey = "home";
-  } else if (path.includes("citas")) {
-    activeKey = "citas";
   } else if (path.includes("journaling")) {
     activeKey = "journaling";
   } else if (path.includes("informes")) {
@@ -41,15 +39,7 @@ function TabNavegacion() {
           </span>
         }
       />
-      <Tab
-        eventKey="citas"
-        title={
-          <span className="tab-title">
-            <div>📅</div>
-            <div className="d-none d-md-block">Citas</div>
-          </span>
-        }
-      />
+      {/* Se quita la pestaña Citas para paciente */}
       <Tab
         eventKey="journaling"
         title={
@@ -71,6 +61,5 @@ function TabNavegacion() {
     </Tabs>
   );
 }
-
 
 export default TabNavegacion;

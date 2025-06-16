@@ -38,7 +38,7 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
         if (user.role === "paciente") {
           response = await axios.get(`${API_URL}/api/pacientes/journals`, config);
         } else if (user.role === "sanitario" && pacienteId) {
-          response = await axios.get(`${API_URL}/api/sanitarios/journaling/${pacienteId}`, config);
+          response = await axios.get(`${API_URL}/api/sanitarios/journals/${pacienteId}`, config);
         }
 
         setEntries(response?.data || []);

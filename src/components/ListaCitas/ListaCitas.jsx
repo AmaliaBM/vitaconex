@@ -14,9 +14,10 @@ function ListaCitas() {
 
   useEffect(() => {
     const fetchAppointments = async () => {
+      if (!user) return;
+
       try {
         let response;
-
         const config = {
           headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
         };
@@ -37,7 +38,7 @@ function ListaCitas() {
       }
     };
 
-    if (user) fetchAppointments();
+    fetchAppointments();
   }, [user]);
 
   if (loading) return <p>Cargando citas...</p>;

@@ -11,7 +11,6 @@ import InformesPage from "./pages/InformesPage";
 import LayoutAdminMed from "./components/Layout/LayoutAdminMed";
 import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
-import CitasPacientePage from "./pages/PacientePages/CitasPacientePage";
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -29,30 +28,32 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpFormPage />} />
 
-            {/* Rutas para PACIENTE */}
-            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
-              <Route element={<LayoutPaciente />}>
-                <Route path="/home" element={<HomePacientePage />} />
-                <Route path="/journaling" element={<JournalingPage />} />
-                <Route path="/citas-paciente" element={<CitasPacientePage />} />
-                <Route path="/informes" element={<InformesPage />} />
-              </Route>
-            </Route>
+            {/* RUTAS PACIENTE */}
+           <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
+          <Route element={<LayoutPaciente />}>
+            <Route path="/home" element={<HomePacientePage />} />
+            <Route path="/journaling" element={<JournalingPage />} />
+            <Route path="/informes" element={<InformesPage />} />
+            {/* Ya no ponemos /citas aquí */}
+          </Route>
+        </Route>
 
-            {/* Rutas para SANITARIO */}
+            {/* RUTAS SANITARIO */}
             <Route element={<ProtectedRoute allowedRoles={['sanitario']} />}>
               <Route element={<LayoutAdminMed />}>
                 <Route path="/home-medico" element={<HomeSanitarioPage />} />
-                <Route path="/citas" element={<CitasPage />} />
                 <Route path="/informes" element={<InformesPage />} />
+                <Route path="/citas-sanitario" element={<CitasPage />} />
               </Route>
             </Route>
 
-            {/* Rutas para ADMIN */}
+            {/* RUTAS ADMIN */}
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route element={<LayoutAdminMed />}>
                 <Route path="/home-admin" element={<HomeAdminPage />} />
                 <Route path="/usuariospage" element={<UsuariosPage />} />
+                {/* Diferencio la ruta de citas para admin */}
+                <Route path="/citas-admin" element={<CitasPage />} />
               </Route>
             </Route>
 
@@ -64,3 +65,5 @@ function App() {
 }
 
 export default App;
+
+
