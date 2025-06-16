@@ -1,72 +1,57 @@
 
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../context/auth.context";
+// src/components/ListaInformes/ListaInformes.jsx
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 function ListaInformes() {
-  const { user } = useContext(AuthContext);
-  const [informes, setInformes] = useState([]);
+  const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const fetchInformes = async () => {
+    const fetchRecords = async () => {
       try {
-        let response;
-
         const config = {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
         };
 
-        if (user.role === "paciente") {
-          response = await axios.get(`${API_URL}/api/pacientes/medical-records`, config);
-        } else if (user.role === "sanitario") {
-          response = await axios.get(`${API_URL}/api/sanitarios/medical-records`, config);
-        } else {
-          console.warn("Este usuario no tiene acceso a informes.");
-          return;
-        }
-
-        setInformes(response.data);
+        // ✅ IMPORTANTE: ruta correcta para el paciente
+        const response = await axios.get(`${API_URL}/api/paciente/medical-records`, config);
+        setRecords(response.data);
       } catch (error) {
-        console.error("Error al cargar informes:", error);
+        console.error("Error al cargar los informes:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (user) fetchInformes();
-  }, [user]);
+    fetchRecords();
+  }, []);
 
   if (loading) return <p>Cargando informes...</p>;
 
+  if (records.length === 0) return <p>No hay informes disponibles.</p>;
+
   return (
-    <Row xs={1} md={2} className="g-4">
-      {informes.length === 0 ? (
-        <Col>
-          <p className="text-center">No hay informes disponibles.</p>
-        </Col>
-      ) : (
-        informes.map((informe, idx) => (
-          <Col key={idx}>
-            <Card>
-              <Card.Body>
-              <Card.Title>Fecha: {new Date(informe.datetime).toLocaleDateString()}</Card.Title>
-              <Card.Text>
-                {user.role === "paciente" && `Redactado por: ${informe.medicoName || 'Sanitario'}`}
-                {user.role === "sanitario" && `Paciente: ${informe.pacienteName}`}
-              </Card.Text>
-              <Card.Text>{informe.contenido}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))
-      )}
-    </Row>
+    <>
+      {records.map((record) => (
+        <Card key={record._id} className="mb-3">
+          <Card.Body>
+            <Card.Title>
+              Informe del {new Date(record.datetime).toLocaleString()}
+            </Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              Escrito por: {record.medicoId?.name} {record.medicoId?.lastname}
+            </Card.Subtitle>
+            <Card.Text>{record.contenido}</Card.Text>
+          </Card.Body>
+        </Card>
+      ))}
+    </>
   );
 }
 

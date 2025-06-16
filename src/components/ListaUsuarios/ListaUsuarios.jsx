@@ -1,10 +1,10 @@
-
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { Link } from "react-router-dom";
 
 function ListaUsuarios() {
   const { user } = useContext(AuthContext);
@@ -23,7 +23,6 @@ function ListaUsuarios() {
         let response;
 
         if (user.role === "sanitario") {
-          // ✅ Ruta corregida para sanitarios
           response = await axios.get(`${API_URL}/api/sanitarios/users`, config);
         } else if (user.role === "admin") {
           response = await axios.get(`${API_URL}/api/admin/users`, config);
@@ -49,9 +48,12 @@ function ListaUsuarios() {
           <p className="text-center">No hay usuarios disponibles.</p>
         </Col>
       ) : (
-        usuarios.map((usuario, idx) => (
-          <Col key={idx}>
-            <Card>
+        usuarios.map((usuario) => (
+          <Col key={usuario._id}>
+            <Card as={Link} to={`/paciente/${usuario._id}`} 
+              style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+              className="h-100"
+            >
               <Card.Body>
                 <Card.Title>{usuario.name} {usuario.lastname}</Card.Title>
                 <Card.Text>
@@ -68,3 +70,4 @@ function ListaUsuarios() {
 }
 
 export default ListaUsuarios;
+

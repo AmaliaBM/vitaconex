@@ -11,6 +11,7 @@ import InformesPage from "./pages/InformesPage";
 import LayoutAdminMed from "./components/Layout/LayoutAdminMed";
 import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
+import DetallePacientePage from "./pages/SanitariosPages/DetallePacientePage";
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -43,6 +44,7 @@ function App() {
               <Route element={<LayoutAdminMed />}>
                 <Route path="/home-medico" element={<HomeSanitarioPage />} />
                 <Route path="/informes" element={<InformesPage />} />
+                <Route path="/paciente/:id" element={<DetallePacientePage />} />
               </Route>
             </Route>
 
