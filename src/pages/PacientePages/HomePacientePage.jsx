@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
+import CustomCharts from "../../components/Charts/CustomCharts";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
+
 
 function HomePacientePage() {
   const { user, isLoading, logOutUser } = useContext(AuthContext);
@@ -24,7 +26,7 @@ function HomePacientePage() {
           headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
         };
 
-        // Traemos las últimas 3 entradas ordenadas por fecha descendente (asumiendo que la API permite limitar y ordenar)
+        // Traemos las últimas 3 entradas ordenadas por fecha descendente
         const response = await axios.get(
           `${API_URL}/api/pacientes/journals?limit=3&sort=-fecha`,
           config
@@ -63,7 +65,7 @@ function HomePacientePage() {
           Cerrar sesión
         </Button>
       </div>
-
+      <CustomCharts />
       <Card className="text-center mb-4">
         <Card.Body>
           <Card.Title>📅 Tus citas</Card.Title>
