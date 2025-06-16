@@ -9,6 +9,7 @@ function ListaCitas() {
   const { user } = useContext(AuthContext);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,22 +18,22 @@ function ListaCitas() {
       if (!user) return;
 
       try {
-        let response;
         const config = {
           headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
         };
 
-        if (user.role === "paciente") {
-          response = await axios.get(`${API_URL}/api/pacientes/appointments`, config);
-        } else if (user.role === "sanitario") {
-          response = await axios.get(`${API_URL}/api/sanitarios/appointments`, config);
-        } else if (user.role === "admin") {
-          response = await axios.get(`${API_URL}/api/admin/appointments`, config);
-        }
+        const roleEndpoints = {
+          paciente: "pacientes",
+          sanitario: "sanitarios",
+          admin: "admin"
+        };
 
+        const endpoint = roleEndpoints[user.role];
+        const response = await axios.get(`${API_URL}/api/${endpoint}/appointments`, config);
         setAppointments(response.data);
       } catch (error) {
         console.error("Error al cargar citas:", error);
+        setError("No se pudieron cargar las citas.");
       } finally {
         setLoading(false);
       }
@@ -42,6 +43,7 @@ function ListaCitas() {
   }, [user]);
 
   if (loading) return <p>Cargando citas...</p>;
+  if (error) return <p className="text-danger text-center">{error}</p>;
 
   return (
     <Row xs={1} md={2} className="g-4">
@@ -50,16 +52,24 @@ function ListaCitas() {
           <p className="text-center">No hay citas registradas.</p>
         </Col>
       ) : (
-        appointments.map((cita, idx) => (
-          <Col key={idx}>
+        appointments.map((cita) => (
+          <Col key={cita._id}>
             <Card>
               <Card.Body>
-                <Card.Title>{cita.date}</Card.Title>
+                <Card.Title>{new Date(cita.datetime).toLocaleString()}</Card.Title>
                 <Card.Text>
-                  {user.role === "paciente" && `Especialista: ${cita.specialist}`}
-                  {user.role === "sanitario" && `Paciente: ${cita.patientName}`}
-                  {user.role === "admin" &&
-                    `Paciente: ${cita.pacienteId.name} ${cita.pacienteId.lastname} | Especialista: ${cita.sanitarioId.name} ${cita.sanitarioId.lastname}`}
+                  {user.role === "paciente" && cita.medicoId && (
+                    <>Especialista: {cita.medicoId.name} {cita.medicoId.lastname}</>
+                  )}
+                  {user.role === "sanitario" && cita.pacienteId && (
+                    <>Paciente: {cita.pacienteId.name} {cita.pacienteId.lastname}</>
+                  )}
+                  {user.role === "admin" && (
+                    <>
+                      Paciente: {cita.pacienteId?.name} {cita.pacienteId?.lastname} | 
+                      Especialista: {cita.medicoId?.name} {cita.medicoId?.lastname}
+                    </>
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>
