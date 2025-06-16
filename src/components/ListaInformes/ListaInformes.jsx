@@ -20,8 +20,9 @@ function ListaInformes() {
         };
 
         // ✅ IMPORTANTE: ruta correcta para el paciente
-        const response = await axios.get(`${API_URL}/api/paciente/medical-records`, config);
-        setRecords(response.data);
+      const response = await axios.get(`${API_URL}/api/pacientes/medical-records`, config);
+      console.log("Informes recibidos:", response.data);
+      setRecords(response.data);
       } catch (error) {
         console.error("Error al cargar los informes:", error);
       } finally {
