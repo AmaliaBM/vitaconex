@@ -23,7 +23,7 @@ function ListaCitas() {
 
         if (user.role === "paciente") {
           response = await axios.get(`${API_URL}/api/pacientes/appointments`, config);
-        } else if (user.role === "medico") {
+        } else if (user.role === "sanitario") {
           response = await axios.get(`${API_URL}/api/sanitarios/appointments`, config);
         } else if (user.role === "admin") {
           response = await axios.get(`${API_URL}/api/admin/appointments`, config);
