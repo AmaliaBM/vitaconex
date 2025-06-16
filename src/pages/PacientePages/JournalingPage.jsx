@@ -5,7 +5,7 @@ import ListaJournaling from "../../components/ListaJournaling/ListaJournaling";
 function JournalingPage() {
   const [refresh, setRefresh] = useState(false);
 
-  const triggerRefresh = () => setRefresh(prev => !prev);
+  const triggerRefresh = () => setRefresh((prev) => !prev);
 
   return (
     <div className="container mt-4">
@@ -18,7 +18,7 @@ function JournalingPage() {
 
       <hr className="my-5" />
 
-      <ListaJournaling refresh={refresh} />
+      <ListaJournaling refresh={refresh} onRefresh={triggerRefresh} />
     </div>
   );
 }
