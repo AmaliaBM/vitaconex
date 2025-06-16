@@ -43,19 +43,25 @@ function App() {
               <Route element={<LayoutAdminMed />}>
                 <Route path="/home-medico" element={<HomeSanitarioPage />} />
                 <Route path="/informes" element={<InformesPage />} />
-                <Route path="/citas-sanitario" element={<CitasPage />} />
               </Route>
             </Route>
 
             {/* RUTAS ADMIN */}
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route element={<LayoutAdminMed />}>
-                <Route path="/home-admin" element={<HomeAdminPage />} />
-                <Route path="/usuariospage" element={<UsuariosPage />} />
-                {/* Diferencio la ruta de citas para admin */}
-                <Route path="/citas-admin" element={<CitasPage />} />
+              <Route path="/home-admin" element={<HomeAdminPage />} />
               </Route>
             </Route>
+
+          {/* RUTA COMPARTIDA PARA ADMIN Y SANITARIO */}
+          <Route element={<ProtectedRoute allowedRoles={['admin', 'sanitario']} />}>
+            <Route element={<LayoutAdminMed />}>
+              <Route path="/citas" element={<CitasPage />} />
+              </Route>
+               <Route element={<LayoutAdminMed />}>
+              <Route path="/usuariospage" element={<UsuariosPage />} />
+              </Route>
+                </Route>
 
           </Routes>
         </div>
