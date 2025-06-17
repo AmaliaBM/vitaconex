@@ -123,6 +123,45 @@ form small.error {
   animation: fadeInUp 0.5s ease-in-out both;
 }
 
+/* Cambios en diseño en ArticlesOfInterst */
+.articles-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.article-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.article-card:hover,
+.article-card:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  outline: none;
+}
+
+.article-card img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.modal-body img {
+  max-height: 250px;
+  object-fit: cover;
+}
+
+@media (max-width: 576px) {
+  .modal-body img {
+    max-height: 180px;
+  }
+}
 
 /* Login Form */
 .login-page {
@@ -252,6 +291,20 @@ form button[type="submit"]:focus {
   align-items: center;
   animation: fadeInUp 0.5s ease-in-out both;
 }
+
+.intro-text {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+  max-width: 720px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+.intro-text strong {
+  color: var(--primary-color);
+}
+
 
 /* Contenedor de botones */
 .auth-buttons {
