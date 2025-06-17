@@ -61,28 +61,33 @@ function AddFormUser() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-
-      await axios.post(`${API_URL}/api/admin/users`, formData, config);
-      setSuccess("Usuario creado con éxito.");
-      setTimeout(() => {
-        navigate("/usuariospage");
-      }, 1500);
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.msg || "Error al crear usuario.");
-    }
+  const payload = {
+    ...formData,
+    assignedSanitarios: formData.assignedSanitarios || null,
   };
+
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    };
+
+    await axios.post(`${API_URL}/api/admin/users`, payload, config);
+    setSuccess("Usuario creado con éxito.");
+    setTimeout(() => {
+      navigate("/usuariospage");
+    }, 1500);
+  } catch (err) {
+    console.error(err);
+    setError(err.response?.data?.msg || "Error al crear usuario.");
+  }
+};
 
   if (loading) return <Spinner animation="border" />;
 
