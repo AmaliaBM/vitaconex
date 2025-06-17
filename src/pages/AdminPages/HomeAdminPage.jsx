@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
+import AddFormUser from "../../components/AddFormUser/AddFormUser"; // 👈 importado
 import { AuthContext } from "../../context/auth.context";
 
 function HomeAdminPage() {
@@ -37,6 +38,13 @@ function HomeAdminPage() {
       ) : (
         <p className="text-center">Cargando citas...</p>
       )}
+
+      <hr className="my-5" />
+
+      <Card className="p-3 shadow-sm">
+        <Card.Title>➕ Crear nuevo usuario</Card.Title>
+        <AddFormUser /> {/* 👈 Aquí se renderiza el formulario */}
+      </Card>
     </div>
   );
 }
