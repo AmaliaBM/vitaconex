@@ -225,6 +225,16 @@ form button[type="submit"]:focus {
   transition: background-color 0.3s ease;
 }
 
+
+/* Logo en la home */
+.logo-vita {
+  width: 40vw;
+  max-width: 240px;
+  min-width: 120px;
+  height: auto;
+}
+
+
 /* Contenedor de artículos */
 .articles-container {
   display: grid;

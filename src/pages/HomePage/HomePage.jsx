@@ -8,6 +8,14 @@ function HomePage() {
     <div className="d-flex flex-column min-vh-100">
       <main className="flex-grow-1">
         <Container className="text-center py-5">
+          {/* Logo */}
+            <img
+            src="/vitaconex.svg"
+            alt="Logo VitaConex"
+            className="logo-vita mb-4"
+            />
+
+          {/* Intro */}
           <div className="intro-text mb-4">
             <p>
               <strong>VitaConex</strong> es una aplicación desarrollada como proyecto final del bootcamp de <strong>Desarrollo Web en Ironhack</strong>.
@@ -17,10 +25,12 @@ function HomePage() {
             </p>
           </div>
 
+          {/* Botones de acceso */}
           <div className="auth-buttons mb-4">
             <BotonesHome />
           </div>
 
+          {/* Artículos */}
           <ArticlesOfInterest />
         </Container>
       </main>
@@ -31,4 +41,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
