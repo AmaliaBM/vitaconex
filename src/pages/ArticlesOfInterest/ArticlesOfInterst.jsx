@@ -9,15 +9,15 @@ const articles = [
     id: 1,
     title: "¿Qué es VitaConex?",
     shortText: "Una app para pacientes y sanitarios, pensada para mejorar la comunicación.",
-    fullText: `VitaConex nace como respuesta a la necesidad de mejorar la relación paciente-profesional médico. Desarrollada durante el bootcamp de Ironhack por Amalia Barrigas. Como diseñadora UX/UI estoy comprometida con la accesibilidad, usabilidad y eficiencia.`,
-    image: "https://via.placeholder.com/400x200",
+    fullText: `VitaConex nace como respuesta a la necesidad de mejorar la relación paciente-sanitario. Desarrollada durante el bootcamp de Ironhack por Amalia Barrigas, he intentado combinar una perspectiva humanista sobre las relaciones en el mundo sanitario y crear un diseño UX/UI comprometido con la accesibilidad, usabilidad y eficiencia.`,
+    image: "https://res.cloudinary.com/dagphzq9d/image/upload/v1750160423/7322085_shm5i4.jpg",
   },
   {
     id: 2,
     title: "Motivación detrás del proyecto",
     shortText: "El origen de la idea y su potencial impacto en la salud digital.",
     fullText: `La motivación nace de experiencias reales: pacientes que se sienten solos, sanitarios que necesitan centralizar la evolución del paciente, y la oportunidad de crear tecnología útil, con corazón y código. Además, permite un espacio de comprensión sobre el bienestar humano: lo emocional, lo físico y lo mental deben entenderse desde un prisma más unificado`,
-    image: "https://via.placeholder.com/400x200",
+    image: "https://res.cloudinary.com/dagphzq9d/image/upload/v1750160407/8755870_ejzi1p.jpg",
   },
 ];
 
