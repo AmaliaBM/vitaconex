@@ -1,6 +1,13 @@
-import { Container, Row, Col, Card, Button, Image } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function AboutPage() {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1); // Vuelve a la página anterior
+  };
+
   return (
     <Container className="mt-5 mb-5">
       <Row className="justify-content-center">
@@ -10,7 +17,7 @@ function AboutPage() {
               <Card.Title className="mb-3">Sobre mí</Card.Title>
 
               <Card.Text>
-                ¡Hola! Soy <strong>Amalia Barrigas Munuera</strong>, Jr.Full Stack web development y diseñadora UX/UI. 
+                ¡Hola! Soy <strong>Amalia Barrigas Munuera</strong>, Jr. Full Stack Web Developer y diseñadora UX/UI. 
                 Además de estar siempre aprendiendo dentro del sector tech, me apasiona la <strong>psicología</strong>, en especial la neuropsicología y las divergencias cognitivas.
               </Card.Text>
 
@@ -23,7 +30,11 @@ function AboutPage() {
                 Este equilibrio entre la tecnología, la salud y el bienestar personal es lo que inspira muchos de mis proyectos.
               </Card.Text>
 
-              <div className="text-center mt-4">
+              <div className="d-flex justify-content-between mt-4">
+                <Button variant="secondary" onClick={handleBack}>
+                  ← Volver atrás
+                </Button>
+
                 <Button
                   variant="primary"
                   href="https://www.linkedin.com/in/amaliabarrigasmunuera/"
@@ -42,3 +53,4 @@ function AboutPage() {
 }
 
 export default AboutPage;
+
