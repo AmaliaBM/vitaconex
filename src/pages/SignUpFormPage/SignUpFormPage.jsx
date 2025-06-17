@@ -39,9 +39,11 @@ const handleSubmit = async (event) => {
   }
 
   setValidated(true);
+  
+  const API_URL = import.meta.env.VITE_API_URL;
 
   try {
-    const response = await fetch("http://localhost:5005/api/auth/signup", {
+    const response = await fetch(`${API_URL}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
