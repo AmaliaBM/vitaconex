@@ -54,23 +54,53 @@ function CustomCharts() {
                 label: "Frecuencia de estado de ánimo",
                 data,
                 backgroundColor: [
-                  "#e74c3c",
-                  "#3498db",
-                  "#f1c40f",
-                  "#95a5a6",
-                  "#2ecc71",
+                  "#d32f2f", // rojo accesible
+                  "#1976d2", // azul
+                  "#fbc02d", // amarillo
+                  "#757575", // gris
+                  "#388e3c", // verde
                 ],
               },
             ],
           },
           options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                stepSize: 1,
+          responsive: true,
+          animation: {
+          duration: 1000,
+          easing: "easeOutQuart",
+          },
+          plugins: {
+            legend: {
+              labels: {
+                font: {
+                  size: 16,
+                },
               },
             },
+          },
+              scales: {
+            x: {
+            ticks: {
+              font: {
+                size: 18, // Más grande para emojis y texto
+              },
+              color: "#333", // Contraste accesible
+            },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                font: {
+                  size: 14,
+                },
+                color: "#333",
+              },
+              grid: {
+                color: "#e0e0e0",
+              },
+            },
+          },
           },
         });
       } catch (err) {
