@@ -52,31 +52,27 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group as={Row} className="mb-3" controlId="formEmail">
-        <Form.Label column sm="2">Email</Form.Label>
-        <Col sm="10">
-          <Form.Control
-            type="email"
-            placeholder="email@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </Col>
-      </Form.Group>
+      <Form.Group className="mb-3" controlId="formEmail">
+      <Form.Label>Email</Form.Label>
+      <Form.Control
+        type="email"
+        placeholder="email@example.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+    </Form.Group>
 
-      <Form.Group as={Row} className="mb-3" controlId="formPassword">
-        <Form.Label column sm="2">Password</Form.Label>
-        <Col sm="10">
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </Col>
-      </Form.Group>
+    <Form.Group className="mb-3" controlId="formPassword">
+      <Form.Label>Password</Form.Label>
+      <Form.Control
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+    </Form.Group>
 
       {error && <p className="text-danger">{error}</p>}
 
