@@ -11,6 +11,7 @@ import InformesPage from "./pages/InformesPage";
 import LayoutAdminMed from "./components/Layout/LayoutAdminMed";
 import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
+import DetalleUsuarioPage from "./pages/AdminPages/DetalleUsuarioPage";
 import DetallePacientePage from "./pages/SanitariosPages/DetallePacientePage";
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -52,6 +53,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route element={<LayoutAdminMed />}>
               <Route path="/home-admin" element={<HomeAdminPage />} />
+              <Route path="/admin/usuarios/:userId" element={<DetalleUsuarioPage />} />
               </Route>
             </Route>
 

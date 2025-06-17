@@ -17,14 +17,16 @@ function ListaUsuarios({ busqueda }) {
     const fetchUsuarios = async () => {
       try {
         const config = {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
         };
 
         let response;
 
-        if (user.role === "sanitario") {
+        if (user?.role === "sanitario") {
           response = await axios.get(`${API_URL}/api/sanitarios/users`, config);
-        } else if (user.role === "admin") {
+        } else if (user?.role === "admin") {
           response = await axios.get(`${API_URL}/api/admin/users`, config);
         }
 
@@ -57,14 +59,25 @@ function ListaUsuarios({ busqueda }) {
           <Col key={usuario._id}>
             <Card
               as={Link}
-              to={`/paciente/${usuario._id}`}
-              style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+              to={
+                  user?.role === "admin"
+                    ? `/admin/usuarios/${usuario._id}`
+                    : `/paciente/${usuario._id}`
+                } // 🔄 Cambiado para que vaya a la vista admin
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                cursor: "pointer",
+              }}
               className="h-100"
             >
               <Card.Body>
-                <Card.Title>{usuario.name} {usuario.lastname}</Card.Title>
+                <Card.Title>
+                  {usuario.name} {usuario.lastname}
+                </Card.Title>
                 <Card.Text>
-                  <strong>Email:</strong> {usuario.email}<br />
+                  <strong>Email:</strong> {usuario.email}
+                  <br />
                   <strong>Rol:</strong> {usuario.role}
                 </Card.Text>
               </Card.Body>
