@@ -19,7 +19,7 @@
   }
 }
 
-/* Estilo general y cabeceras */
+/* Tipografía y cabeceras */
 h1, h2, h3, h4, h5 {
   font-family: 'Segoe UI', sans-serif;
   color: var(--primary-color);
@@ -32,7 +32,7 @@ h1 { font-size: 2rem; }
 h2 { font-size: 1.75rem; }
 h3 { font-size: 1.5rem; }
 
-/*Asegurar jerarquí visual clara y text legible */
+/* Enlaces */
 a {
   color: var(--secondary-color);
   text-decoration: none;
@@ -47,7 +47,8 @@ a:hover, a:focus {
 a::after {
   content: "";
   position: absolute;
-  left: 0; bottom: -2px;
+  left: 0;
+  bottom: -2px;
   height: 2px;
   width: 0;
   background: var(--accent-color);
@@ -58,13 +59,37 @@ a:hover::after, a:focus::after {
   width: 100%;
 }
 
-/*Estilos para tablas */
+/* Modal y imagenes */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: 0.4s ease-in-out both;
+}
+
+.modal-body img {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.modal-body img:hover {
+  transform: scale(1.02);
+}
+
+/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
   background: var(--bg-color);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 th, td {
@@ -83,7 +108,7 @@ tbody tr:hover {
   background-color: #f5faff;
 }
 
-/*Formularios */
+/* Formularios */
 form label {
   display: block;
   margin-bottom: 0.5rem;
@@ -91,7 +116,9 @@ form label {
   color: var(--text-color);
 }
 
-form select, form textarea {
+form select, form textarea,
+form input[type="email"],
+form input[type="password"] {
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
@@ -101,10 +128,11 @@ form select, form textarea {
   min-height: 44px;
 }
 
-form select:focus, form textarea:focus {
+form select:focus, form textarea:focus,
+form input:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(51,153,255,0.3);
+  box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.3);
 }
 
 form small.error {
@@ -112,21 +140,95 @@ form small.error {
   font-size: 0.875rem;
 }
 
-/* Tarjetas e interfaces */
+form button[type="submit"] {
+  background-color: var(--secondary-color);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  width: 100%;
+  cursor: pointer;
+  min-height: 44px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #004f99;
+  transform: scale(1.02);
+}
+
+form button[type="submit"]:focus {
+  outline: 3px solid #99ccff;
+  outline-offset: 2px;
+}
+
+/* Tarjetas */
 .card, .info-card {
   background: var(--bg-color);
   border: 1px solid #ddeeff;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   animation: fadeInUp 0.5s ease-in-out both;
 }
 
-/* Cambios en diseño en ArticlesOfInterst */
+/* Página de inicio */
+.HomePage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  background-color: #f9fcff;
+}
+
+.home-container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInUp 0.5s ease-in-out both;
+}
+
+.intro-text {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+  max-width: 720px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+.intro-text strong {
+  color: var(--primary-color);
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.auth-buttons button {
+  width: 200px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  transition: background-color 0.3s ease;
+}
+
+/* Contenedor de artículos */
 .articles-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
 }
@@ -136,76 +238,37 @@ form small.error {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .article-card:hover,
 .article-card:focus {
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   outline: none;
 }
 
 .article-card img {
+  width: 100%;
   height: 200px;
   object-fit: cover;
-  width: 100%;
 }
 
-.modal-body img {
-  max-height: 250px;
-  object-fit: cover;
-}
-
-@media (max-width: 576px) {
-  .modal-body img {
-    max-height: 180px;
-  }
-}
-
-/* Login Form */
-.login-page {
-  background-color: var(--bg-light);
-  padding: 2rem 1rem;
-  animation: fadeInUp 0.5s ease-in-out both;
-}
-
-/* Tarjeta del formulario */
-.card {
-  background-color: var(--bg-color);
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddeeff;
+/* Gráfica de emociones */
+.custom-chart-container {
   padding: 2rem;
-  animation: fadeInUp 0.6s ease-in-out both;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
 }
 
-/* Título del login */
-.card h2 {
-  font-size: 1.8rem;
-  color: var(--primary-color);
-  font-weight: bold;
+.custom-chart-container canvas {
+  max-width: 100%;
 }
 
-/* Campos del formulario */
-form input[type="email"],
-form input[type="password"] {
-  border: 1px solid #cce0ff;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  width: 100%;
-  margin-bottom: 1rem;
-  min-height: 44px;
-}
-
-form input:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.3);
-}
-
-/* Botones globales */
+/* Botones generales */
 button, .btn {
   font-family: inherit;
   border-radius: 8px;
@@ -232,174 +295,83 @@ button.secondary:hover, button.secondary:focus {
   background: #005bb5;
 }
 
-/* Focus y accesibilidad global */
+/* Otros */
 *:focus-visible {
   outline: 3px solid var(--accent-color);
   outline-offset: 2px;
 }
 
-
-/* Botón de login */
-form button[type="submit"] {
-  background-color: var(--secondary-color);
-  color: #ffffff;
-  padding: 0.75rem 1.25rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  width: 100%;
-  cursor: pointer;
-  min-height: 44px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-form button[type="submit"]:hover {
-  background-color: #004f99;
-  transform: scale(1.02);
-}
-
-form button[type="submit"]:focus {
-  outline: 3px solid #99ccff;
-  outline-offset: 2px;
-}
-
-/* Botones en el form de editar ususario siendo admin */
 .button-group-separated > *:not(:last-child) {
   margin-right: 1rem;
 }
 
-/* Centrado y espaciado general para la Home */
-.HomePage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 1rem;
+#App {
   min-height: 100vh;
-  background-color: #f9fcff;
+  display: flex;
+  flex-direction: column;
 }
 
-.home-wrapper {
+#contenedor {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
-.home-container {
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: fadeInUp 0.5s ease-in-out both;
-}
-
-.intro-text {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 2rem;
-  max-width: 720px;
-  margin-inline: auto;
-  line-height: 1.6;
-}
-
-.intro-text strong {
-  color: var(--primary-color);
-}
-
-
-/* Contenedor de botones */
-.auth-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  align-items: center;
-  margin: 2rem 0;
-}
-
-.auth-buttons button {
-  width: 200px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  min-height: 44px;
-  transition: background-color 0.3s ease;
-}
-
-/* Ajustes CSS en TABNAVEGACION */
-.tab-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  gap: 0.3rem;
-}
-
-/* Tamaño del emoji */
-.tab-title div:first-child {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-/* Tamaño del texto debajo del emoji */
-.tab-title div:last-child {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* Cambios en gráfica de emociones dle ususario paciente */
-.custom-chart-container {
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 2rem auto;
-}
-
-
-.custom-chart-container canvas {
-  max-width: 100%;
-}
-
-
 /* Responsive */
 @media (max-width: 576px) {
+  .modal-body img {
+    max-height: 180px;
+  }
   .home-container {
     padding: 1rem;
   }
-
   .auth-buttons button {
     width: 100%;
   }
-
   .card h2 {
     font-size: 1.5rem;
   }
-
   form input,
   form button {
     font-size: 1rem;
   }
-
   .card {
     padding: 1.5rem;
   }
 }
 
-/* Preferencias de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
+@media (min-width: 1024px) {
+  .articles-container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
   }
-}
-
-/* Responsive fluido */
-.container, .home-container {
-  width: min(100%, 960px);
-  margin-inline: auto;
-  padding-inline: 1rem;
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    height: 100%;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+  .article-card img {
+    height: 260px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+  .article-card h3 {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  .article-card p {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -407,3 +379,15 @@ form button[type="submit"]:focus {
   h2 { font-size: 1.5rem; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.container, .home-container {
+  width: min(100%, 960px);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
