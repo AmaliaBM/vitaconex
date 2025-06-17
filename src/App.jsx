@@ -13,6 +13,7 @@ import LayoutPaciente from "./components/Layout/LayoutPaciente";
 import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
 import DetalleUsuarioPage from "./pages/AdminPages/DetalleUsuarioPage";
 import DetallePacientePage from "./pages/SanitariosPages/DetallePacientePage";
+import InfoProyectoPage from "./pages/InfoProyectoPage/InfoProyectoPage";
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpFormPage />} />
+            <Route path="/info-proyecto" element={<InfoProyectoPage />} />
 
             {/* RUTAS PACIENTE */}
            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>

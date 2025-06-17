@@ -294,6 +294,33 @@ button.primary:hover, button.primary:focus {
 button.secondary:hover, button.secondary:focus {
   background: #005bb5;
 }
+ /*Diseño en Footer*/
+footer {
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+footer h6 {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+footer ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+}
+
+footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
 
 /* Otros */
 *:focus-visible {
@@ -317,6 +344,8 @@ button.secondary:hover, button.secondary:focus {
   flex-direction: column;
   width: 100%;
 }
+
+
 
 /* Responsive */
 @media (max-width: 576px) {
