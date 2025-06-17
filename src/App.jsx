@@ -14,6 +14,7 @@ import HomeAdminPage from "./pages/AdminPages/HomeAdminPage";
 import DetalleUsuarioPage from "./pages/AdminPages/DetalleUsuarioPage";
 import DetallePacientePage from "./pages/SanitariosPages/DetallePacientePage";
 import InfoProyectoPage from "./pages/InfoProyectoPage/InfoProyectoPage";
+import AboutPage from "./pages/About/About";
 import { AuthProviderWrapper } from "./context/auth.context";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpFormPage />} />
             <Route path="/info-proyecto" element={<InfoProyectoPage />} />
+            <Route path="/about" element={<AboutPage />} />
 
             {/* RUTAS PACIENTE */}
            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
