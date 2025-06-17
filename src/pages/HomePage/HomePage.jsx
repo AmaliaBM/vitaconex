@@ -2,7 +2,6 @@ import { Container } from "react-bootstrap";
 import BotonesHome from "../../components/Botoneshome/BotonesHome";
 import ArticlesOfInterest from "../ArticlesOfInterest/ArticlesOfInterst";
 
-
 function HomePage() {
   return (
     <div className="HomePage">
@@ -17,8 +16,11 @@ function HomePage() {
             </p>
           </div>
 
-          <BotonesHome />
-           {/* Artículos informativos debajo de los botones */}
+          {/* Aquí va auth-buttons */}
+          <div className="auth-buttons">
+            <BotonesHome />
+          </div>
+
           <ArticlesOfInterest />
         </Container>
       </div>

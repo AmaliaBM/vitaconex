@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 
 function BotonesHome() {
   return (
-    <div className="home-buttons">
+    <div className="auth-buttons">
       <Link to="/login">
         <Button variant="primary" size="lg">LOGIN</Button>
       </Link>
@@ -14,5 +14,6 @@ function BotonesHome() {
     </div>
   );
 }
+
 
 export default BotonesHome;

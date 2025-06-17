@@ -165,18 +165,14 @@ function DetalleUsuarioPage() {
           <Button variant="secondary" onClick={() => navigate(-1)}>
             Volver
           </Button>
-          <div>
-            <Button
-              variant="danger"
-              className="me-2"
-              onClick={() => setShowDeleteModal(true)}
-            >
-              Eliminar usuario
-            </Button>
-            <Button variant="primary" type="submit">
-              Guardar cambios
-            </Button>
-          </div>
+          <div className="d-flex button-group-separated">
+          <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
+           Eliminar usuario
+          </Button>
+          <Button variant="primary" type="submit">
+            Guardar cambios
+          </Button>
+        </div>
         </div>
       </Form>
 
