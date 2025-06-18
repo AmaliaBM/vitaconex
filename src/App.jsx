@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
+import NotFound from './pages/ErrorPages/NotFound';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpFormPage from "./pages/SignUpFormPage/SignUpFormPage";
 import HomePacientePage from "./pages/PacientePages/HomePacientePage";
@@ -33,6 +34,9 @@ function App() {
             <Route path="/signup" element={<SignUpFormPage />} />
             <Route path="/info-proyecto" element={<InfoProyectoPage />} />
             <Route path="/about" element={<AboutPage />} />
+
+            {/* Ruta para páginas no encontradas */}
+            <Route path="*" element={<NotFound />} />
 
             {/* RUTAS PACIENTE */}
            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>
