@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
-import AddFormUser from "../../components/AddFormUser/AddFormUser"; // 👈 importado
+import AddFormUser from "../../components/AddFormUser/AddFormUser"; 
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 import { AuthContext } from "../../context/auth.context";
 
 function HomeAdminPage() {
@@ -36,7 +37,9 @@ function HomeAdminPage() {
       {!isLoading ? (
         <ListaCitas rol="admin" />
       ) : (
-        <p className="text-center">Cargando citas...</p>
+        <div className="d-flex justify-content-center my-4">
+          <SpinnerButton />
+        </div>
       )}
 
       <hr className="my-5" />

@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import SpinnerButton from "../SpinnerButton/SpinnerButton";
 
 function ListaJournaling({ pacienteId, refresh, onRefresh }) {
   const { user } = useContext(AuthContext);
@@ -100,7 +101,7 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
     }
   };
 
-  if (loading) return <p>Cargando entradas del diario...</p>;
+  if (loading) return <SpinnerButton />;
 
   return (
     <Row xs={1} md={2} className="g-4">

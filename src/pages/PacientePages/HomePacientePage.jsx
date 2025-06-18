@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import CustomCharts from "../../components/Charts/CustomCharts";
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 
@@ -73,13 +74,15 @@ function HomePacientePage() {
         </Card.Body>
       </Card>
 
-      {!isLoading ? <ListaCitas rol="paciente" /> : <p className="text-center">Cargando tus citas...</p>}
+      {!isLoading ? <ListaCitas rol="paciente" /> :   <div className="d-flex justify-content-center my-4"><SpinnerButton />
+  </div>}
 
       <Card className="mt-5">
         <Card.Body>
           <Card.Title>📝 Últimas entradas de tu diario</Card.Title>
           {loadingJournals ? (
-            <p>Cargando entradas...</p>
+              <div className="d-flex justify-content-center my-3">
+              <SpinnerButton />  </div>
           ) : journals.length === 0 ? (
             <p>No has registrado ninguna entrada aún.</p>
           ) : (

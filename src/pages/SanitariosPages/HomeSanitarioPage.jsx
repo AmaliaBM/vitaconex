@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import { AuthContext } from "../../context/auth.context";
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton"; 
 
 function HomeSanitarioPage() {
   const { user, isLoading, logOutUser } = useContext(AuthContext);
@@ -35,10 +36,13 @@ function HomeSanitarioPage() {
       {!isLoading ? (
         <ListaCitas />
       ) : (
-        <p className="text-center">Cargando citas...</p>
+        <div className="d-flex justify-content-center my-5">
+          <SpinnerButton />
+        </div>
       )}
     </div>
   );
 }
 
 export default HomeSanitarioPage;
+

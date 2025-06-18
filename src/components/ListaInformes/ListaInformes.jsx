@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import SpinnerButton from "../SpinnerButton/SpinnerButton";
 
 function ListaInformes() {
   const [records, setRecords] = useState([]);
@@ -33,7 +34,7 @@ function ListaInformes() {
     fetchRecords();
   }, []);
 
-  if (loading) return <p>Cargando informes...</p>;
+  if (loading) return <SpinnerButton />;
 
   if (records.length === 0) return <p>No hay informes disponibles.</p>;
 

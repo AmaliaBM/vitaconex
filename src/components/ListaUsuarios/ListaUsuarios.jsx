@@ -4,6 +4,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import SpinnerButton from "../SpinnerButton/SpinnerButton"; 
 import { Link } from "react-router-dom";
 
 function ListaUsuarios({ busqueda }) {
@@ -46,7 +47,7 @@ function ListaUsuarios({ busqueda }) {
     return nombreCompleto.includes(busqueda.toLowerCase());
   });
 
-  if (loading) return <p>Cargando usuarios...</p>;
+  if (loading) return <SpinnerButton />;
 
   return (
     <Row xs={1} md={2} className="g-4">

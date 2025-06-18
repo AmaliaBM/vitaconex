@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 
 function DetallePacientePage() {
   const { id } = useParams(); // pacienteId
@@ -63,7 +64,14 @@ useEffect(() => {
     setLoading(false);
   };
 
-if (!paciente) return <p>Cargando paciente...</p>;
+if (!paciente) {
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center my-5">
+      <SpinnerButton />
+      <p className="mt-3">Cargando datos del paciente...</p>
+    </div>
+  );
+}
 
 return (
   <div className="container mt-4">
@@ -106,7 +114,13 @@ return (
         />
       </Form.Group>
       <Button variant="primary" type="submit" disabled={loading} className="mt-2">
-        {loading ? "Guardando..." : "Guardar"}
+      {loading ? (
+        <>
+          <SpinnerButton /> Guardando...
+        </>
+        ) : (
+            "Guardar"
+        )}
       </Button>
     </Form>
   </div>

@@ -4,6 +4,7 @@ import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 
 function ListaCitas() {
   const { user } = useContext(AuthContext);
@@ -42,7 +43,7 @@ function ListaCitas() {
     fetchAppointments();
   }, [user]);
 
-  if (loading) return <p>Cargando citas...</p>;
+  if (loading) return <SpinnerButton />;
   if (error) return <p className="text-danger text-center">{error}</p>;
 
   return (

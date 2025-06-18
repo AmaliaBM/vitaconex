@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import SpinnerButton from "../components/SpinnerButton/SpinnerButton"; // Asegúrate de que la ruta sea correcta
 
 const ProtectedRoute = ({ allowedRoles }) => {
-  const { isLoggedIn, user, isValidatingToken  } = useContext(AuthContext);
+  const { isLoggedIn, user, isValidatingToken } = useContext(AuthContext);
 
-  // Mientras se carga el estado de autenticación, mostramos un mensaje o nada
-  if (isValidatingToken) return <p>Cargando sesión...</p>;
-   //TODO: A futuro: ambiar el <p> por un spinner o loader más bonito
+  // Mientras se valida el token, muestra el spinner
+  if (isValidatingToken) return <SpinnerButton />;
 
   // Si no está logueado, redirige a login
   if (!isLoggedIn) return <Navigate to="/login" />;
@@ -20,3 +20,4 @@ const ProtectedRoute = ({ allowedRoles }) => {
 };
 
 export default ProtectedRoute;
+
