@@ -15,23 +15,28 @@ function DetalleUsuarioPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [sanitarios, setSanitarios] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
-    const fetchUsuario = async () => {
+    const fetchData = async () => {
       try {
-        const response = await service.get(`/admin/users/${userId}`);
-        setUsuario(response.data);
+        const [userRes, sanitariosRes] = await Promise.all([
+          service.get(`/admin/users/${userId}`),
+          service.get("/admin/users?role=sanitario"),
+        ]);
+        setUsuario(userRes.data);
+        setSanitarios(sanitariosRes.data);
       } catch {
-        setError("No se pudo cargar la información del usuario.");
+        setError("No se pudo cargar la información.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUsuario();
+    fetchData();
   }, [userId]);
 
   const handleChange = (e) => {
@@ -135,6 +140,24 @@ function DetalleUsuarioPage() {
           />
         </Form.Group>
 
+        {usuario.role === "paciente" && (
+          <Form.Group className="mb-3">
+            <Form.Label>Asignar sanitario</Form.Label>
+            <Form.Select
+              name="assignedSanitarios"
+              value={usuario.assignedSanitarios || ""}
+              onChange={handleChange}
+            >
+              <option value="">-- Ninguno --</option>
+              {sanitarios.map((s) => (
+                <option key={s._id} value={s._id}>
+                  {s.name} {s.lastname}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        )}
+
         <div className="d-flex justify-content-between">
           <Button variant="secondary" onClick={() => navigate(-1)}>
             Volver
@@ -178,4 +201,3 @@ function DetalleUsuarioPage() {
 }
 
 export default DetalleUsuarioPage;
-
