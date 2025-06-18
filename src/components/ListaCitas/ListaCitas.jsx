@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
+import service from "../../services/service.config";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -12,17 +12,11 @@ function ListaCitas() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchAppointments = async () => {
       if (!user) return;
 
       try {
-        const config = {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }
-        };
-
         const roleEndpoints = {
           paciente: "pacientes",
           sanitario: "sanitarios",
@@ -30,7 +24,7 @@ function ListaCitas() {
         };
 
         const endpoint = roleEndpoints[user.role];
-        const response = await axios.get(`${API_URL}/api/${endpoint}/appointments`, config);
+        const response = await service.get(`/${endpoint}/appointments`);
         setAppointments(response.data);
       } catch (error) {
         console.error("Error al cargar citas:", error);
@@ -82,3 +76,4 @@ function ListaCitas() {
 }
 
 export default ListaCitas;
+

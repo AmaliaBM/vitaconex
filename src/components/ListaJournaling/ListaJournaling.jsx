@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
+import service from "../../services/service.config";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -17,8 +17,6 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
   const [editDiario, setEditDiario] = useState("");
   const [editEstadoAnimo, setEditEstadoAnimo] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   const moodEmojis = {
     1: "😡",
     2: "😭",
@@ -30,16 +28,12 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const config = {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-        };
-
         let response;
 
         if (user.role === "paciente") {
-          response = await axios.get(`${API_URL}/api/pacientes/journals`, config);
+          response = await service.get("/pacientes/journals");
         } else if (user.role === "sanitario" && pacienteId) {
-          response = await axios.get(`${API_URL}/api/sanitarios/journals/${pacienteId}`, config);
+          response = await service.get(`/sanitarios/journals/${pacienteId}`);
         }
 
         setEntries(response?.data || []);
@@ -57,10 +51,7 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
     if (!window.confirm("¿Seguro que quieres eliminar esta entrada?")) return;
 
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-      };
-      await axios.delete(`${API_URL}/api/pacientes/journals/${id}`, config);
+      await service.delete(`/pacientes/journals/${id}`);
       if (onRefresh) onRefresh();
     } catch (error) {
       console.error("Error al eliminar la entrada:", error);
@@ -82,17 +73,10 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
 
   const handleEditSubmit = async (id) => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-      };
-      await axios.put(
-        `${API_URL}/api/pacientes/journals/${id}`,
-        {
-          estadoAnimo: Number(editEstadoAnimo),
-          diario: editDiario,
-        },
-        config
-      );
+      await service.put(`/pacientes/journals/${id}`, {
+        estadoAnimo: Number(editEstadoAnimo),
+        diario: editDiario,
+      });
       cancelEditing();
       if (onRefresh) onRefresh();
     } catch (error) {

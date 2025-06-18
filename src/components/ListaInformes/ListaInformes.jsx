@@ -1,7 +1,7 @@
 
 // src/components/ListaInformes/ListaInformes.jsx
 import { useEffect, useState } from "react";
-import axios from "axios";
+import service from "../../services/service.config";
 import Card from "react-bootstrap/Card";
 import SpinnerButton from "../SpinnerButton/SpinnerButton";
 
@@ -9,21 +9,12 @@ function ListaInformes() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        };
-
-        // ✅ IMPORTANTE: ruta correcta para el paciente
-      const response = await axios.get(`${API_URL}/api/pacientes/medical-records`, config);
-      console.log("Informes recibidos:", response.data);
-      setRecords(response.data);
+        const response = await service.get("/pacientes/medical-records");
+        console.log("Informes recibidos:", response.data);
+        setRecords(response.data);
       } catch (error) {
         console.error("Error al cargar los informes:", error);
       } finally {

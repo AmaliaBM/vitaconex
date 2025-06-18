@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-import axios from "axios";
+import service from "../../services/service.config";
 
 const estadoLabels = {
   1: "😠 Muy enfadado",
@@ -15,21 +15,16 @@ function CustomCharts() {
   const chartInstanceRef = useRef(null);
   const [error, setError] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchAndRenderChart = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-        const response = await axios.get(`${API_URL}/api/pacientes/journals`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await service.get("/pacientes/journals");
 
         const entries = response.data;
 
         // Contamos cuántas veces aparece cada estado de ánimo
         const conteo = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.estadoAnimo >= 1 && entry.estadoAnimo <= 5) {
             conteo[entry.estadoAnimo]++;
           }
@@ -64,43 +59,43 @@ function CustomCharts() {
             ],
           },
           options: {
-          responsive: true,
-          animation: {
-          duration: 1000,
-          easing: "easeOutQuart",
-          },
-          plugins: {
-            legend: {
-              labels: {
-                font: {
-                  size: 16,
+            responsive: true,
+            animation: {
+              duration: 1000,
+              easing: "easeOutQuart",
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  font: {
+                    size: 16,
+                  },
                 },
               },
             },
-          },
-              scales: {
-            x: {
-            ticks: {
-              font: {
-                size: 18, // Más grande para emojis y texto
-              },
-              color: "#333", // Contraste accesible
-            },
-            },
-            y: {
-              beginAtZero: true,
-              ticks: {
-                stepSize: 1,
-                font: {
-                  size: 14,
+            scales: {
+              x: {
+                ticks: {
+                  font: {
+                    size: 18, // Más grande para emojis y texto
+                  },
+                  color: "#333", // Contraste accesible
                 },
-                color: "#333",
               },
-              grid: {
-                color: "#e0e0e0",
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1,
+                  font: {
+                    size: 14,
+                  },
+                  color: "#333",
+                },
+                grid: {
+                  color: "#e0e0e0",
+                },
               },
             },
-          },
           },
         });
       } catch (err) {

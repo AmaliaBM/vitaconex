@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import NotFound from './pages/ErrorPages/NotFound';
+import Denegado from "./pages/ErrorPages/Denegado403";
+import Error500 from "./pages/ErrorPages/Error500";
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpFormPage from "./pages/SignUpFormPage/SignUpFormPage";
 import HomePacientePage from "./pages/PacientePages/HomePacientePage";
@@ -37,6 +39,8 @@ function App() {
 
             {/* Ruta para páginas no encontradas */}
             <Route path="*" element={<NotFound />} />
+            <Route path="/denegado" element={<Denegado />} />
+            <Route path="/error-500" element={<Error500 />} />
 
             {/* RUTAS PACIENTE */}
            <Route element={<ProtectedRoute allowedRoles={['paciente']} />}>

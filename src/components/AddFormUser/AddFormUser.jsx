@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import service from "../../services/service.config";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
@@ -22,17 +22,10 @@ function AddFormUser() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchSanitarios = async () => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        };
-        const response = await axios.get(`${API_URL}/api/admin/users?role=sanitario`, config);
+        const response = await service.get("/admin/users?role=sanitario");
         setSanitarios(response.data);
       } catch (err) {
         console.error("Error al cargar sanitarios", err);
@@ -61,33 +54,27 @@ function AddFormUser() {
     }
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  const payload = {
-    ...formData,
-    assignedSanitarios: formData.assignedSanitarios || null,
-  };
-
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
+    const payload = {
+      ...formData,
+      assignedSanitarios: formData.assignedSanitarios || null,
     };
 
-    await axios.post(`${API_URL}/api/admin/users`, payload, config);
-    setSuccess("Usuario creado con éxito.");
-    setTimeout(() => {
-      navigate("/usuariospage");
-    }, 1500);
-  } catch (err) {
-    console.error(err);
-    setError(err.response?.data?.msg || "Error al crear usuario.");
-  }
-};
+    try {
+      await service.post("/admin/users", payload);
+      setSuccess("Usuario creado con éxito.");
+      setTimeout(() => {
+        navigate("/usuariospage");
+      }, 1500);
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.msg || "Error al crear usuario.");
+    }
+  };
 
   if (loading) return <Spinner animation="border" />;
 

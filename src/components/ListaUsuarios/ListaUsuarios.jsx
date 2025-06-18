@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
+import service from "../../services/service.config";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -12,23 +12,15 @@ function ListaUsuarios({ busqueda }) {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        };
-
         let response;
 
         if (user?.role === "sanitario") {
-          response = await axios.get(`${API_URL}/api/sanitarios/users`, config);
+          response = await service.get("/sanitarios/users");
         } else if (user?.role === "admin") {
-          response = await axios.get(`${API_URL}/api/admin/users`, config);
+          response = await service.get("/admin/users");
         }
 
         setUsuarios(response.data);
@@ -61,10 +53,10 @@ function ListaUsuarios({ busqueda }) {
             <Card
               as={Link}
               to={
-                  user?.role === "admin"
-                    ? `/admin/usuarios/${usuario._id}`
-                    : `/paciente/${usuario._id}`
-                } // 🔄 Cambiado para que vaya a la vista admin
+                user?.role === "admin"
+                  ? `/admin/usuarios/${usuario._id}`
+                  : `/paciente/${usuario._id}`
+              }
               style={{
                 textDecoration: "none",
                 color: "inherit",

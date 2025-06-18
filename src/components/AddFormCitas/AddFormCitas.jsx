@@ -1,7 +1,7 @@
 
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
+import service from "../../services/service.config";
 import {
   Form,
   Button,
@@ -14,7 +14,6 @@ import {
 
 function AddFormCitas() {
   const { user } = useContext(AuthContext);
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -30,12 +29,6 @@ function AddFormCitas() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState(null);
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    },
-  };
-
   // Cargar pacientes, médicos y citas
   useEffect(() => {
     if (!user || user.role !== "admin") return;
@@ -43,14 +36,10 @@ function AddFormCitas() {
     const fetchData = async () => {
       try {
         const [resPatients, resDoctors, resAppointments] = await Promise.all([
-          axios.get(`${API_URL}/api/admin/users?role=paciente`, config),
-          axios.get(`${API_URL}/api/admin/users?role=sanitario`, config),
-          axios.get(`${API_URL}/api/admin/appointments`, config),
+          service.get("/admin/users?role=paciente"),
+          service.get("/admin/users?role=sanitario"),
+          service.get("/admin/appointments"),
         ]);
-
-        console.log("Pacientes recibidos:", resPatients.data);
-        console.log("Doctores recibidos:", resDoctors.data);
-        console.log("Citas recibidas:", resAppointments.data);
 
         setPatients(resPatients.data);
         setDoctors(resDoctors.data);
@@ -62,7 +51,7 @@ function AddFormCitas() {
     };
 
     fetchData();
-  }, [user, API_URL]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +60,7 @@ function AddFormCitas() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.pacienteId || !formData.medicoId || !formData.datetime) {
       setError("Todos los campos son obligatorios.");
       return;
@@ -78,16 +68,14 @@ function AddFormCitas() {
 
     try {
       setError(null);
+
       if (editingId) {
-        // Editar cita
-        await axios.put(`${API_URL}/api/admin/appointments/${editingId}`, formData, config);
+        await service.put(`/admin/appointments/${editingId}`, formData);
       } else {
-        // Crear nueva cita
-        await axios.post(`${API_URL}/api/admin/appointments`, formData, config);
+        await service.post("/admin/appointments", formData);
       }
 
-      // Refrescar lista
-      const res = await axios.get(`${API_URL}/api/admin/appointments`, config);
+      const res = await service.get("/admin/appointments");
       setAppointments(res.data);
 
       // Resetear formulario
@@ -98,9 +86,10 @@ function AddFormCitas() {
         estado: "confirmado",
       });
       setEditingId(null);
+
     } catch (err) {
       console.error(err);
-      setError("Error al guardar la cita.");
+      setError("Error al guardar o actualizar la cita.");
     }
   };
 
@@ -118,7 +107,7 @@ function AddFormCitas() {
     if (!window.confirm("¿Estás seguro de eliminar esta cita?")) return;
 
     try {
-      await axios.delete(`${API_URL}/api/admin/appointments/${id}`, config);
+      await service.delete(`/admin/appointments/${id}`);
       setAppointments((prev) => prev.filter((a) => a._id !== id));
     } catch (err) {
       console.error(err);
@@ -243,3 +232,4 @@ function AddFormCitas() {
 }
 
 export default AddFormCitas;
+

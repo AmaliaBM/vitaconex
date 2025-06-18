@@ -1,10 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import SpinnerButton from "../components/SpinnerButton/SpinnerButton"; 
-import axios from "axios";
+import service from "../services/service.config"
 
 const AuthContext = createContext();
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,10 +12,13 @@ function AuthProviderWrapper(props) {
 
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
+    // Actualiza el token en la instancia service
+    service.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   };
 
   const removeToken = () => {
     localStorage.removeItem("authToken");
+    delete service.defaults.headers.common["Authorization"];
   };
 
   const authenticateUser = async () => {
@@ -30,12 +31,11 @@ function AuthProviderWrapper(props) {
       return;
     }
 
+    // Aseguramos que el token esté en el header del service
+    service.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
     try {
-      const response = await axios.get(`${API_URL}/api/auth/verify`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await service.get("/auth/verify");
 
       setUser(response.data.payload);
       setIsLoggedIn(true);
@@ -49,6 +49,7 @@ function AuthProviderWrapper(props) {
       } else {
         setAuthError("Token inválido o expirado");
       }
+      removeToken();
     } finally {
       setIsValidatingToken(false);
     }

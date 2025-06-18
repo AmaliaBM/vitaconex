@@ -1,12 +1,11 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
+import service from "../../services/service.config"; // <-- importamos la instancia configurada
 
 function DetalleUsuarioPage() {
   const { userId } = useParams();
@@ -20,19 +19,12 @@ function DetalleUsuarioPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        };
-        const response = await axios.get(`${API_URL}/api/admin/users/${userId}`, config);
+        const response = await service.get(`/admin/users/${userId}`);
         setUsuario(response.data);
-      } catch (err) {
+      } catch {
         setError("No se pudo cargar la información del usuario.");
       } finally {
         setLoading(false);
@@ -56,15 +48,9 @@ function DetalleUsuarioPage() {
     setSuccess("");
 
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
-
-      await axios.put(`${API_URL}/api/admin/users/${userId}`, usuario, config);
+      await service.put(`/admin/users/${userId}`, usuario);
       setSuccess("Usuario actualizado con éxito.");
-    } catch (err) {
+    } catch {
       setError("Error al actualizar el usuario.");
     }
   };
@@ -73,16 +59,9 @@ function DetalleUsuarioPage() {
     setDeleteError("");
 
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        data: {
-          password: passwordConfirm,
-        },
-      };
-
-      await axios.delete(`${API_URL}/api/admin/users/${userId}/secure`, config);
+      await service.delete(`/admin/users/${userId}/secure`, {
+        data: { password: passwordConfirm },
+      });
       navigate("/home-admin"); // Redirige después de eliminar
     } catch (err) {
       setDeleteError(
@@ -124,12 +103,7 @@ function DetalleUsuarioPage() {
 
         <Form.Group className="mb-3">
           <Form.Label>Correo</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={usuario.email}
-            disabled
-          />
+          <Form.Control type="email" name="email" value={usuario.email} disabled />
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -166,13 +140,13 @@ function DetalleUsuarioPage() {
             Volver
           </Button>
           <div className="d-flex button-group-separated">
-          <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-           Eliminar usuario
-          </Button>
-          <Button variant="primary" type="submit">
-            Guardar cambios
-          </Button>
-        </div>
+            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
+              Eliminar usuario
+            </Button>
+            <Button variant="primary" type="submit">
+              Guardar cambios
+            </Button>
+          </div>
         </div>
       </Form>
 

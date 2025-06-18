@@ -6,8 +6,7 @@ import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import CustomCharts from "../../components/Charts/CustomCharts";
 import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
-
+import service from "../../services/service.config";
 
 function HomePacientePage() {
   const { user, isLoading, logOutUser } = useContext(AuthContext);
@@ -16,23 +15,13 @@ function HomePacientePage() {
   const [journals, setJournals] = useState([]);
   const [loadingJournals, setLoadingJournals] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     if (!user) return;
 
     const fetchJournals = async () => {
       try {
-        const config = {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-        };
-
         // Traemos las últimas 3 entradas ordenadas por fecha descendente
-        const response = await axios.get(
-          `${API_URL}/api/pacientes/journals?limit=3&sort=-fecha`,
-          config
-        );
-
+        const response = await service.get("/pacientes/journals?limit=3&sort=-fecha");
         setJournals(response.data);
       } catch (error) {
         console.error("Error al cargar las entradas de journaling:", error);
@@ -42,7 +31,7 @@ function HomePacientePage() {
     };
 
     fetchJournals();
-  }, [user, API_URL]);
+  }, [user]);
 
   const handleLogout = () => {
     logOutUser();
@@ -74,15 +63,21 @@ function HomePacientePage() {
         </Card.Body>
       </Card>
 
-      {!isLoading ? <ListaCitas rol="paciente" /> :   <div className="d-flex justify-content-center my-4"><SpinnerButton />
-  </div>}
+      {!isLoading ? (
+        <ListaCitas rol="paciente" />
+      ) : (
+        <div className="d-flex justify-content-center my-4">
+          <SpinnerButton />
+        </div>
+      )}
 
       <Card className="mt-5">
         <Card.Body>
           <Card.Title>📝 Últimas entradas de tu diario</Card.Title>
           {loadingJournals ? (
-              <div className="d-flex justify-content-center my-3">
-              <SpinnerButton />  </div>
+            <div className="d-flex justify-content-center my-3">
+              <SpinnerButton />
+            </div>
           ) : journals.length === 0 ? (
             <p>No has registrado ninguna entrada aún.</p>
           ) : (
@@ -103,4 +98,3 @@ function HomePacientePage() {
 }
 
 export default HomePacientePage;
-

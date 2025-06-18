@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from "axios";
+import service from "../../services/service.config";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 function AddFormJournaling({ onEntrySaved }) {
   const { user } = useContext(AuthContext);
   const [estadoAnimo, setEstadoAnimo] = useState("");
@@ -14,8 +15,6 @@ function AddFormJournaling({ onEntrySaved }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [feedback, setFeedback] = useState("");
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,20 +27,10 @@ function AddFormJournaling({ onEntrySaved }) {
     }
 
     try {
-      const token = localStorage.getItem("authToken");
-
-      await axios.post(
-        `${API_URL}/api/pacientes/journals`,
-        {
-          estadoAnimo: Number(estadoAnimo),
-          diario: diario,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await service.post("/pacientes/journals", {
+        estadoAnimo: Number(estadoAnimo),
+        diario: diario,
+      });
 
       setSuccess("Entrada registrada con éxito.");
       setDiario("");
@@ -105,4 +94,5 @@ function AddFormJournaling({ onEntrySaved }) {
 }
 
 export default AddFormJournaling;
+
 
