@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+import authService from "../../services/auth.service";
 
 function SignUpFormPage() {
   const [validated, setValidated] = useState(false);
@@ -27,50 +28,38 @@ function SignUpFormPage() {
     }));
   };
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  event.stopPropagation();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  const { firstName, lastName, birthdate, email, password, agreedToTerms } = formData;
+    const { firstName, lastName, birthdate, email, password, agreedToTerms } = formData;
 
-  if (!firstName.trim() || !lastName.trim() || !birthdate || !email.trim() || !password.trim() || !agreedToTerms) {
-    alert("Please complete all required fields and agree to terms.");
-    return;
-  }
+    if (!firstName.trim() || !lastName.trim() || !birthdate || !email.trim() || !password.trim() || !agreedToTerms) {
+      alert("Please complete all required fields and agree to terms.");
+      return;
+    }
 
-  setValidated(true);
-  
-  const API_URL = import.meta.env.VITE_API_URL;
+    setValidated(true);
 
-  try {
-    const response = await fetch(`${API_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      // Llamada usando el service de auth
+      await authService.signup({
         name: firstName,
         lastname: lastName,
         datebirth: birthdate,
         email,
         password,
         role: "paciente",
-      }),
-    });
+      });
 
-     let data;
-  try {
-    data = await response.json(); // parsear JSON
-  } catch (err) {
-    data = null;
-  }
-
-    if (!response.ok) throw new Error(data.msg || "Error en el registro: contraseña o email no");
-
-    alert("Tu registro fue enviado. Administración debe aprobar tu cuenta antes de poder acceder.");
-    navigate("/login");
-  } catch (error) {
-    alert(error.message);
-  }
-};
+      alert("Tu registro fue enviado. Administración debe aprobar tu cuenta antes de poder acceder.");
+      navigate("/login");
+    } catch (error) {
+      // Manejo robusto del error
+      const message = error.response?.data?.msg || error.message || "Error en el registro";
+      alert(message);
+    }
+  };
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -98,18 +87,18 @@ const handleSubmit = async (event) => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="validationCustomBirthdate">
-        <Form.Label>Fecha de nacimiento</Form.Label>
-        <Form.Control
-          required
-          type="date"
-          name="birthdate"
-          value={formData.birthdate}
-          onChange={handleChange}
-        />
-        <Form.Control.Feedback type="invalid">
-          La fecha de nacimiento es obligatoria.
-        </Form.Control.Feedback>
-      </Form.Group>
+          <Form.Label>Fecha de nacimiento</Form.Label>
+          <Form.Control
+            required
+            type="date"
+            name="birthdate"
+            value={formData.birthdate}
+            onChange={handleChange}
+          />
+          <Form.Control.Feedback type="invalid">
+            La fecha de nacimiento es obligatoria.
+          </Form.Control.Feedback>
+        </Form.Group>
       </Row>
 
       <Form.Group className="mb-3" controlId="validationCustomEmail">
@@ -159,3 +148,4 @@ const handleSubmit = async (event) => {
 }
 
 export default SignUpFormPage;
+
