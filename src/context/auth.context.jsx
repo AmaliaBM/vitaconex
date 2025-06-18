@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import SpinnerButton from "../components/SpinnerButton/SpinnerButton"; 
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -7,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null); // objeto completo: id, role, name, etc.
+  const [user, setUser] = useState(null); 
   const [isValidatingToken, setIsValidatingToken] = useState(true);
   const [authError, setAuthError] = useState(null);
 
@@ -36,7 +37,7 @@ function AuthProviderWrapper(props) {
         },
       });
 
-      setUser(response.data.payload); // esto incluye id, role, etc.
+      setUser(response.data.payload);
       setIsLoggedIn(true);
       setAuthError(null);
     } catch (err) {
@@ -56,7 +57,7 @@ function AuthProviderWrapper(props) {
   const logOutUser = () => {
     removeToken();
     setUser(null);
-   setIsLoggedIn(false);
+    setIsLoggedIn(false);
   };
 
   useEffect(() => {
@@ -73,7 +74,11 @@ function AuthProviderWrapper(props) {
   };
 
   if (isValidatingToken) {
-    return <h3>...validando sesión</h3>; // Puedes poner un spinner o loader aquí
+    return (
+      <div className="d-flex justify-content-center my-5">
+        <SpinnerButton />
+      </div>
+    );
   }
 
   return (
