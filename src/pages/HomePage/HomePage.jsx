@@ -9,11 +9,11 @@ function HomePage() {
       <main className="flex-grow-1">
         <Container className="text-center py-5">
           {/* Logo */}
-            <img
+          <img
             src="/vitaconex.svg"
             alt="Logo VitaConex"
             className="logo-vita mb-4"
-            />
+          />
 
           {/* Intro */}
           <div className="intro-text mb-4">
@@ -24,6 +24,13 @@ function HomePage() {
               Permite a pacientes gestionar su salud y compartir su evolución con profesionales del ámbito sanitario.
             </p>
           </div>
+
+          {/* AVISO SOBRE EL SERVIDOR */}
+          <p className="text-muted mb-4" style={{ maxWidth: "600px", margin: "0 auto", fontSize: "0.95rem" }}>
+            <em>
+              Nota: el proyecto está alojado en un servidor gratuito (Render), por lo que los tiempos de carga pueden ser lentos, especialmente al inicio. Agradecemos tu paciencia.
+            </em>
+          </p>
 
           {/* Botones de acceso */}
           <div className="auth-buttons mb-4">
@@ -41,3 +48,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
