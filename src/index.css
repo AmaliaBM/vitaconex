@@ -1,3 +1,6 @@
+
+@import 'react-clock/dist/Clock.css';
+
 :root {
   --primary-color: #004080;
   --secondary-color: #0066cc;
@@ -355,6 +358,13 @@ footer a:hover {
   width: 100%;
 }
 
+/*Reloj en HOME de med y admin.*/
+.reloj-contenedor {
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 /* Responsive */

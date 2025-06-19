@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
+import Reloj from "../../components/Reloj/Reloj";
 import { AuthContext } from "../../context/auth.context";
 import SpinnerButton from "../../components/SpinnerButton/SpinnerButton"; 
 
@@ -26,11 +27,18 @@ function HomeSanitarioPage() {
 
       <Card className="text-center mb-4">
         <Card.Body>
-          <Card.Title>📅 Tus próximas citas</Card.Title>
-          <Card.Text>
-            Aquí puedes consultar las citas que te han sido agendadas.
-          </Card.Text>
-        </Card.Body>
+        <div className="d-flex align-items-center justify-content-between flex-wrap">
+          <div>
+            <Card.Title>📅 Tus próximas citas</Card.Title>
+            <Card.Text>
+              Aquí puedes consultar las citas que te han sido agendadas.
+            </Card.Text>
+          </div>
+          <div className="ms-3">
+            <Reloj />
+          </div>
+        </div>
+      </Card.Body>
       </Card>
 
       {!isLoading ? (

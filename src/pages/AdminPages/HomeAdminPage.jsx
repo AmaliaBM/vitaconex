@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import AddFormUser from "../../components/AddFormUser/AddFormUser"; 
 import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
+import Reloj from "../../components/Reloj/Reloj";
 import { AuthContext } from "../../context/auth.context";
 
 function HomeAdminPage() {
@@ -26,12 +27,19 @@ function HomeAdminPage() {
       </div>
 
       <Card className="text-center mb-4">
-        <Card.Body>
+      <Card.Body>
+      <div className="d-flex align-items-center justify-content-between flex-wrap">
+        <div>
           <Card.Title>📅 Gestión de citas</Card.Title>
           <Card.Text>
             Aquí puedes ver citas y navegar por tu espacio de administración.
           </Card.Text>
-        </Card.Body>
+        </div>
+        <div className="ms-3">
+          <Reloj />
+        </div>
+      </div>
+    </Card.Body>
       </Card>
 
       {!isLoading ? (
