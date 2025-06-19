@@ -7,7 +7,6 @@ import {
   Row,
   Col,
   Card,
-  Table,
   Alert
 } from "react-bootstrap";
 
@@ -202,39 +201,64 @@ function AddFormCitas() {
       </Form>
 
       <hr />
+      <h4 className="mt-4">Lista de Citas</h4>
 
-      <h4>Lista de Citas</h4>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Paciente</th>
-            <th>Médico</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((a) => (
-            <tr key={a._id}>
-              <td>{a.pacienteId.name} {a.pacienteId.lastname}</td>
-              <td>{a.medicoId.name} {a.medicoId.lastname}</td>
-              <td>{new Date(a.datetime).toLocaleString()}</td>
-              <td>{a.estado}</td>
-              <td>
-                <Button variant="warning" size="sm" className="me-2" onClick={() => handleEdit(a)}>
-                  Editar
-                </Button>
-                <Button variant="danger" size="sm" onClick={() => handleDelete(a._id)}>
-                  Borrar
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Row className="g-3">
+        {appointments.map((a) => (
+          <Col key={a._id} xs={12} md={6} lg={4}>
+            <Card
+              className={`shadow-sm border-0 p-2 mb-2 small ${
+                a.estado === "confirmado"
+                  ? "bg-confirmado text-dark"
+                  : a.estado === "cancelado"
+                  ? "bg-cancelado text-dark"
+                  : "bg-light"
+              }`}
+            >
+              <Card.Body>
+                <Card.Title className="fs-6">
+                  {new Date(a.datetime).toLocaleString()}
+                </Card.Title>
+
+                <div className="mb-1">
+                  <strong>Paciente:</strong><br />
+                  {a.pacienteId?.name} {a.pacienteId?.lastname}
+                </div>
+
+                <div className="mb-1">
+                  <strong>Médico:</strong><br />
+                  {a.medicoId?.name} {a.medicoId?.lastname}
+                </div>
+
+                <div className="mb-2">
+                  <strong>Estado:</strong>{" "}
+                  {a.estado === "confirmado" ? "Confirmado ✔" : "Cancelado ✖"}
+                </div>
+
+                <div className="d-flex justify-content-end gap-2">
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => handleEdit(a)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(a._id)}
+                  >
+                    Borrar
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </Card>
   );
 }
 
 export default AddFormCitas;
+

@@ -17,7 +17,7 @@ function UsuariosPage() {
       <Buscador value={busqueda} onChange={setBusqueda} />
 
       {esAdmin ? (
-        <Tabs activeKey={tab} onSelect={setTab} className="mb-3 custom-tabs" fill >
+        <Tabs activeKey={tab} onSelect={setTab} className="mb-3 custom-tabs" fill>
           <Tab eventKey="activos" title="Usuarios Activos">
             <ListaUsuarios busqueda={busqueda} mostrarSoloActivos={true} />
           </Tab>
@@ -26,11 +26,17 @@ function UsuariosPage() {
           </Tab>
         </Tabs>
       ) : (
-        <ListaUsuarios busqueda={busqueda} mostrarSoloActivos={true} />
+        // Solo para sanitarios, mostrar pacientes asignados
+        <ListaUsuarios
+          busqueda={busqueda}
+          mostrarSoloActivos={true}
+          soloAsignados={true}
+        />
       )}
     </div>
   );
 }
 
 export default UsuariosPage;
+
 

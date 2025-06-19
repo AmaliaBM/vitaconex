@@ -177,22 +177,38 @@ form button[type="submit"]:focus {
   outline-offset: 2px;
 }
 
-/* Tarjetas */
+/* Tarjetas de citas y lista de citas como admin  */
 
 .card-fecha {
-  color: #333;
+  color: #212529;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
-.card, .info-card {
-  background: var(--bg-color);
-  border: 1px solid #ddeeff;
+.info-card {
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  animation: 0.5s ease-in-out both;
+  padding: 1.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Colores accesibles y suaves según estado */
+.bg-confirmado {
+  background-color: #e8f5e9; /* verde claro accesible */
+  border-left: 5px solid #388e3c;
+}
+
+.bg-cancelado {
+  background-color: #ffebee; /* rojo claro accesible */
+  border-left: 5px solid #d32f2f;
+}
+
+.bg-light {
+  background-color: #f8f9fa;
+  border-left: 5px solid #6c757d;
+}
+
+.info-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Página de inicio */

@@ -8,32 +8,38 @@ import SpinnerButton from "../SpinnerButton/SpinnerButton";
 import { Link } from "react-router-dom";
 import FotoPerfil from "../FotoPerfil/FotoPerfil";
 
-function ListaUsuarios({ busqueda, mostrarSoloActivos }) {
+function ListaUsuarios({ busqueda, mostrarSoloActivos, soloAsignados = false }) {
   const { user } = useContext(AuthContext);
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUsuarios = async () => {
-      try {
-        let response;
+useEffect(() => {
+  const fetchUsuarios = async () => {
+    try {
+      let response;
 
-        if (user?.role === "sanitario") {
-          response = await service.get("/sanitarios/users");
-        } else if (user?.role === "admin") {
-          response = await service.get("/admin/users");
-        }
-
-        setUsuarios(response.data);
-      } catch (error) {
-        console.error("Error al cargar usuarios:", error);
-      } finally {
-        setLoading(false);
+      if (user?.role === "sanitario" && soloAsignados) {
+        response = await service.get("/sanitarios/users");
+      } else if (user?.role === "admin") {
+        response = await service.get("/admin/users");
+      } else {
+        response = await service.get("/pacientes/users");
       }
-    };
 
-    if (user) fetchUsuarios();
-  }, [user]);
+      console.log('Usuarios recibidos:', response.data);
+      setUsuarios(response.data);
+    } catch (error) {
+      console.error("Error al cargar usuarios:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (user) {
+    setLoading(true);
+    fetchUsuarios();
+  }
+}, [user, soloAsignados]);
 
   const usuariosFiltrados = usuarios
     .filter((usuario) => {
@@ -41,11 +47,11 @@ function ListaUsuarios({ busqueda, mostrarSoloActivos }) {
       return nombreCompleto.includes(busqueda.toLowerCase());
     })
     .filter((usuario) => {
-      // Solo mostrar los activos o inactivos según la pestaña
       if (user?.role === "admin") {
         return usuario.isActive === mostrarSoloActivos;
       } else {
-        return usuario.isActive; // sanitarios solo ven activos
+        // Para sanitarios o pacientes, solo mostrar activos (o puedes ajustar)
+        return usuario.isActive;
       }
     });
 
@@ -102,3 +108,5 @@ function ListaUsuarios({ busqueda, mostrarSoloActivos }) {
 }
 
 export default ListaUsuarios;
+
+

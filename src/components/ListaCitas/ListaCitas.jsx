@@ -40,53 +40,55 @@ function ListaCitas() {
   if (loading) return <SpinnerButton />;
   if (error) return <p className="text-danger text-center">{error}</p>;
 
+  // Mostrar solo si es médico
+  if (user?.role !== "sanitario") return null;
+
+  const citasFuturas = appointments.filter(
+    (cita) => new Date(cita.datetime) >= new Date()
+  );
+
   return (
     <Row xs={1} md={2} className="g-4">
-      {appointments.filter(cita => new Date(cita.datetime) >= new Date()).length === 0 ? (
+      {citasFuturas.length === 0 ? (
         <Col>
           <p className="text-center">No hay citas futuras registradas.</p>
         </Col>
       ) : (
-        appointments
-          .filter(cita => new Date(cita.datetime) >= new Date())
-          .map((cita) => (
-            <Col key={cita._id}>
-              <Card>
-                <Card.Body>
-                  {/* Fecha y hora más oscura */}
-                  <Card.Title style={{ color: '#333', fontWeight: '600' }}>
-                    {new Date(cita.datetime).toLocaleString()}
-                  </Card.Title>
+        citasFuturas.map((cita) => (
+          <Col key={cita._id}>
+            <Card
+              className={`info-card shadow-sm border-0 mb-4 ${
+                cita.estado === "confirmado"
+                  ? "bg-confirmado text-dark"
+                  : cita.estado === "cancelado"
+                  ? "bg-cancelado text-dark"
+                  : "bg-light"
+              }`}
+            >
+              <Card.Body>
+                <Card.Title className="card-fecha mb-3">
+                  {new Date(cita.datetime).toLocaleString()}
+                </Card.Title>
 
-                  {/* Información paciente y especialista en líneas separadas */}
-                  <Card.Text>
-                    {user.role === "paciente" && cita.medicoId && (
-                      <>
-                        <div style={{ fontWeight: '500' }}>Especialista:</div>
-                        <div>{cita.medicoId.name} {cita.medicoId.lastname}</div>
-                      </>
-                    )}
+                {cita.pacienteId && (
+                  <div className="mb-2">
+                    <strong>Paciente:</strong><br />
+                    {cita.pacienteId.name} {cita.pacienteId.lastname}
+                  </div>
+                )}
 
-                    {user.role === "sanitario" && cita.pacienteId && (
-                      <>
-                        <div style={{ fontWeight: '500' }}>Paciente:</div>
-                        <div>{cita.pacienteId.name} {cita.pacienteId.lastname}</div>
-                      </>
-                    )}
-
-                    {user.role === "admin" && (
-                      <>
-                        <div style={{ fontWeight: '500' }}>Paciente:</div>
-                        <div>{cita.pacienteId?.name} {cita.pacienteId?.lastname}</div>
-                        <div style={{ fontWeight: '500', marginTop: '0.5rem' }}>Especialista:</div>
-                        <div>{cita.medicoId?.name} {cita.medicoId?.lastname}</div>
-                      </>
-                    )}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
+                <div className="mt-3">
+                  <span className="fw-semibold">
+                    Estado:{" "}
+                    {cita.estado === "confirmado"
+                      ? "Confirmado ✔"
+                      : "Cancelado ✖"}
+                  </span>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))
       )}
     </Row>
   );
