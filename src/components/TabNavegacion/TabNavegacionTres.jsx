@@ -44,13 +44,13 @@ function TabNavegacionTres() {
 
   return (
     <Tabs
-      activeKey={activeKey}
-      onSelect={handleSelect}
-      id="tabs-navegacion"
-      className="nav-tabs-responsive"
-      fill
-      justify
-    >
+        activeKey={activeKey}
+        onSelect={handleSelect}
+        id="tabs-navegacion"
+        className="nav-tabs-bottom custom-tab-bottom"
+        fill
+        justify
+      >
       <Tab
         eventKey="home"
         title={

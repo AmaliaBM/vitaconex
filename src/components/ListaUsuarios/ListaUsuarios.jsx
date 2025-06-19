@@ -8,7 +8,7 @@ import SpinnerButton from "../SpinnerButton/SpinnerButton";
 import { Link } from "react-router-dom";
 import FotoPerfil from "../FotoPerfil/FotoPerfil";
 
-function ListaUsuarios({ busqueda }) {
+function ListaUsuarios({ busqueda, mostrarSoloActivos }) {
   const { user } = useContext(AuthContext);
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,10 +35,19 @@ function ListaUsuarios({ busqueda }) {
     if (user) fetchUsuarios();
   }, [user]);
 
-  const usuariosFiltrados = usuarios.filter((usuario) => {
-    const nombreCompleto = `${usuario.name} ${usuario.lastname}`.toLowerCase();
-    return nombreCompleto.includes(busqueda.toLowerCase());
-  });
+  const usuariosFiltrados = usuarios
+    .filter((usuario) => {
+      const nombreCompleto = `${usuario.name} ${usuario.lastname}`.toLowerCase();
+      return nombreCompleto.includes(busqueda.toLowerCase());
+    })
+    .filter((usuario) => {
+      // Solo mostrar los activos o inactivos según la pestaña
+      if (user?.role === "admin") {
+        return usuario.isActive === mostrarSoloActivos;
+      } else {
+        return usuario.isActive; // sanitarios solo ven activos
+      }
+    });
 
   if (loading) return <SpinnerButton />;
 
@@ -66,23 +75,24 @@ function ListaUsuarios({ busqueda }) {
               className="h-100"
             >
               <Card.Body className="d-flex align-items-center">
-              <div className="me-3">
-                <FotoPerfil rol={usuario.role} size={64} />
-              </div>
-              <div>
-                <Card.Title className="mb-1">
-                  {usuario.name} {usuario.lastname}
-                </Card.Title>
-                <Card.Text className="mb-0">
-                  <strong>Email:</strong> {usuario.email}<br />
-                  {user?.role !== "sanitario" && (
-                    <>
-                      <strong>Rol:</strong> {usuario.role}
-                    </>
-                  )}
-                </Card.Text>
-              </div>
-            </Card.Body>
+                <div className="me-3">
+                  <FotoPerfil rol={usuario.role} size={64} />
+                </div>
+                <div>
+                  <Card.Title className="mb-1">
+                    {usuario.name} {usuario.lastname}
+                  </Card.Title>
+                  <Card.Text className="mb-0">
+                    <strong>Email:</strong> {usuario.email}
+                    {user?.role !== "sanitario" && (
+                      <>
+                        <br />
+                        <strong>Rol:</strong> {usuario.role}
+                      </>
+                    )}
+                  </Card.Text>
+                </div>
+              </Card.Body>
             </Card>
           </Col>
         ))

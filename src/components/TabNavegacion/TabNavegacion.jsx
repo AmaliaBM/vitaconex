@@ -26,7 +26,7 @@ function TabNavegacion() {
       activeKey={activeKey}
       onSelect={handleSelect}
       id="tabs-navegacion"
-      className="nav-tabs-responsive"
+      className="nav-tabs-bottom custom-tab-bottom"
       fill
       justify
     >
