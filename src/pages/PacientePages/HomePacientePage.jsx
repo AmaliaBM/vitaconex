@@ -47,10 +47,10 @@ function HomePacientePage() {
     return texto.split("\n")[0].slice(0, 100);
   };
 
-  return (
+   return (
     <div className="container mt-4 mb-5">
       {/* Encabezado con imagen y saludo */}
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <div className="d-flex align-items-center">
           <FotoPerfil rol="paciente" />
           <h5 className="mb-0 ms-3">Bienvenido/a {user?.name || "usuario"}</h5>
@@ -60,9 +60,27 @@ function HomePacientePage() {
         </Button>
       </div>
 
+      {/* Texto descriptivo para la gráfica emocional */}
+      <div className="text-center mb-4">
+        <h4 
+          className="fw-semibold" 
+          style={{ 
+            color: "#2c3e50", 
+            fontWeight: '600', 
+            letterSpacing: '0.03em',
+            maxWidth: '600px', 
+            margin: '0 auto',
+            lineHeight: 1.3,
+            userSelect: "none" // para evitar selección accidental
+          }}
+        >
+          Aquí puedes encontrar tu gráfica en relación a cómo te has sentido estos días:
+        </h4>
+      </div>
+
       <CustomCharts />
 
-      <Card className="text-center mb-4">
+      <Card className="text-center mt-5 mb-4">
         <Card.Body>
           <Card.Title>📅 Tus citas</Card.Title>
           <Card.Text>
