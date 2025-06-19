@@ -9,18 +9,18 @@ const imagenesPorRol = {
   paciente: 'https://res.cloudinary.com/dagphzq9d/image/upload/v1750324844/paraperfilpaciente_uxxz46.svg',
 };
 
-function FotoPerfil({ rol }) {
+function FotoPerfil({ rol, size = 128 }) {
   const imagenSrc = imagenesPorRol[rol];
 
   return (
-    <Container className="mb-3">
+    <Container className="p-0">
       <Row className="justify-content-center">
         <Col xs="auto">
           <Image
             src={imagenSrc}
             alt={`Foto de perfil de ${rol}`}
             roundedCircle
-            className="perfil-foto img-fluid"
+            style={{ width: size, height: size, objectFit: "cover" }}
           />
         </Col>
       </Row>

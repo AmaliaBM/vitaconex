@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import service from "../../services/service.config";
@@ -29,7 +28,6 @@ function AddFormCitas() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState(null);
 
-  // Cargar pacientes, médicos y citas
   useEffect(() => {
     if (!user || user.role !== "admin") return;
 
@@ -78,7 +76,6 @@ function AddFormCitas() {
       const res = await service.get("/admin/appointments");
       setAppointments(res.data);
 
-      // Resetear formulario
       setFormData({
         pacienteId: "",
         medicoId: "",
@@ -86,7 +83,6 @@ function AddFormCitas() {
         estado: "confirmado",
       });
       setEditingId(null);
-
     } catch (err) {
       console.error(err);
       setError("Error al guardar o actualizar la cita.");
@@ -98,7 +94,7 @@ function AddFormCitas() {
     setFormData({
       pacienteId: appointment.pacienteId._id,
       medicoId: appointment.medicoId._id,
-      datetime: appointment.datetime.slice(0, 16), // para input datetime-local
+      datetime: appointment.datetime.slice(0, 16),
       estado: appointment.estado,
     });
   };
@@ -174,23 +170,33 @@ function AddFormCitas() {
           </Col>
         </Row>
 
-        <Button type="submit" variant="primary" className="me-2">
-          {editingId ? "Actualizar" : "Crear"}
-        </Button>
-        {editingId && (
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setEditingId(null);
-              setFormData({
-                pacienteId: "",
-                medicoId: "",
-                datetime: "",
-                estado: "confirmado",
-              });
-            }}
-          >
-            Cancelar edición
+        {editingId ? (
+          <Row className="align-items-center mt-3">
+            <Col className="text-start">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setEditingId(null);
+                  setFormData({
+                    pacienteId: "",
+                    medicoId: "",
+                    datetime: "",
+                    estado: "confirmado",
+                  });
+                }}
+              >
+                Cancelar edición
+              </Button>
+            </Col>
+            <Col className="text-end">
+              <Button type="submit" variant="primary">
+                Actualizar
+              </Button>
+            </Col>
+          </Row>
+        ) : (
+          <Button type="submit" variant="primary" className="mt-2">
+            Crear
           </Button>
         )}
       </Form>
@@ -232,4 +238,3 @@ function AddFormCitas() {
 }
 
 export default AddFormCitas;
-

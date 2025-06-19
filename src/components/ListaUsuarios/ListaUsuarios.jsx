@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import SpinnerButton from "../SpinnerButton/SpinnerButton"; 
 import { Link } from "react-router-dom";
+import FotoPerfil from "../FotoPerfil/FotoPerfil";
 
 function ListaUsuarios({ busqueda }) {
   const { user } = useContext(AuthContext);
@@ -64,20 +65,24 @@ function ListaUsuarios({ busqueda }) {
               }}
               className="h-100"
             >
-              <Card.Body>
-                <Card.Title>
+              <Card.Body className="d-flex align-items-center">
+              <div className="me-3">
+                <FotoPerfil rol={usuario.role} size={64} />
+              </div>
+              <div>
+                <Card.Title className="mb-1">
                   {usuario.name} {usuario.lastname}
                 </Card.Title>
-                <Card.Text>
-                <strong>Email:</strong> {usuario.email}
-                <br />
-                {user?.role !== "sanitario" && ( //Oculta visualmente la palabra "Rol" desde la interfaz de médico, cuando ve la lista de sus pacientes. 
-                  <>
-                  <strong>Rol:</strong> {usuario.role}
-                  </>
-                )}
-              </Card.Text>
-              </Card.Body>
+                <Card.Text className="mb-0">
+                  <strong>Email:</strong> {usuario.email}<br />
+                  {user?.role !== "sanitario" && (
+                    <>
+                      <strong>Rol:</strong> {usuario.role}
+                    </>
+                  )}
+                </Card.Text>
+              </div>
+            </Card.Body>
             </Card>
           </Col>
         ))
