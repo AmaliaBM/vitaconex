@@ -178,6 +178,13 @@ form button[type="submit"]:focus {
 }
 
 /* Tarjetas */
+
+.card-fecha {
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
 .card, .info-card {
   background: var(--bg-color);
   border: 1px solid #ddeeff;

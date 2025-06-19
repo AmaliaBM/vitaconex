@@ -1,18 +1,20 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../context/auth.context";
+import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 import service from "../../services/service.config";
+import FotoPerfil from "../../components/FotoPerfil/FotoPerfil";
 
 function DetallePacientePage() {
-  const { id } = useParams(); // pacienteId
-  const { user } = useContext(AuthContext);
+  const { id } = useParams();
+  //const { user } = useContext(AuthContext);
   const [paciente, setPaciente] = useState(null);
   const [journalings, setJournalings] = useState([]);
   const [records, setRecords] = useState([]);
-
   const [newRecordContent, setNewRecordContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,11 +26,8 @@ function DetallePacientePage() {
         const resRecords = await service.get(`/sanitarios/medical-records/${id}`);
 
         setPaciente(resPaciente.data);
-
-        // Asumiendo que journaling viene como array o al menos se verifica
         setJournalings(Array.isArray(resJournal.data) ? resJournal.data : []);
 
-        // Si medical-records devuelve { historial: [...] }, se usa eso, sino array directo
         if (resRecords.data.historial) {
           setRecords(resRecords.data.historial);
         } else if (Array.isArray(resRecords.data)) {
@@ -65,6 +64,17 @@ function DetallePacientePage() {
     setLoading(false);
   };
 
+  const estadoAnimoToEmoji = (valor) => {
+    const mapa = {
+      1: "😠",
+      2: "😢",
+      3: "😕",
+      4: "😐",
+      5: "😊",
+    };
+    return mapa[valor] || valor;
+  };
+
   if (!paciente) {
     return (
       <div className="d-flex flex-column justify-content-center align-items-center my-5">
@@ -76,32 +86,56 @@ function DetallePacientePage() {
 
   return (
     <div className="container mt-4">
-      <h2>{paciente.name} {paciente.lastname}</h2>
-      <p><strong>Email:</strong> {paciente.email}</p>
-      <p><strong>Fecha de nacimiento:</strong> {new Date(paciente.datebirth).toLocaleDateString()}</p>
+      {/* Encabezado con foto y datos */}
+      <Row className="align-items-center mb-4">
+        <Col xs={12} md="auto" className="text-center mb-3 mb-md-0">
+          <FotoPerfil rol="paciente" />
+        </Col>
+        <Col>
+          <h2>{paciente.name} {paciente.lastname}</h2>
+          <p><strong>Fecha de nacimiento:</strong> {new Date(paciente.datebirth).toLocaleDateString()}</p>
+          <p><strong>Email:</strong> {paciente.email}</p>
+        </Col>
+      </Row>
 
-      <h4 className="mt-4">Journalings</h4>
-      <ul>
+      {/* Journalings */}
+      <h4 className="mt-4 mb-3">Journalings</h4>
+      <Row className="g-3">
         {journalings.map(j => (
-          <li key={j._id}>
-            <strong>Fecha:</strong> {new Date(j.fecha).toLocaleDateString()} &nbsp;
-            <strong>Estado ánimo:</strong> {j.estadoAnimo} <br />
-            <em>{j.diario}</em>
-          </li>
+          <Col md={6} key={j._id}>
+            <Card className="h-100">
+              <Card.Body>
+                <Card.Title>
+                  {estadoAnimoToEmoji(j.estadoAnimo)} - {new Date(j.fecha).toLocaleDateString()}
+                </Card.Title>
+                <Card.Text>
+                  <em>{j.diario}</em>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ul>
+      </Row>
 
-      <h4 className="mt-4">Medical Records</h4>
-      <ul>
+      {/* Medical Records */}
+      <h4 className="mt-5 mb-3">Historial Médico</h4>
+      <Row className="g-3">
         {records.map(r => (
-          <li key={r._id}>
-            <strong>Fecha:</strong> {new Date(r.datetime).toLocaleString()} <br />
-            {r.contenido}
-          </li>
+          <Col md={6} key={r._id}>
+            <Card className="h-100">
+              <Card.Body>
+                <Card.Subtitle className="mb-2 card-fecha">
+                {new Date(r.datetime).toLocaleString()}
+                </Card.Subtitle>
+                <Card.Text>{r.contenido}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ul>
+      </Row>
 
-      <h5 className="mt-4">Añadir nuevo registro médico</h5>
+      {/* Formulario nuevo registro */}
+      <h5 className="mt-5">Añadir nuevo registro médico</h5>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="newRecord">
           <Form.Label>Contenido</Form.Label>
@@ -129,4 +163,5 @@ function DetallePacientePage() {
 }
 
 export default DetallePacientePage;
+
 

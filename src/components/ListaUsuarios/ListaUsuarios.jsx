@@ -69,10 +69,14 @@ function ListaUsuarios({ busqueda }) {
                   {usuario.name} {usuario.lastname}
                 </Card.Title>
                 <Card.Text>
-                  <strong>Email:</strong> {usuario.email}
-                  <br />
+                <strong>Email:</strong> {usuario.email}
+                <br />
+                {user?.role !== "sanitario" && ( //Oculta visualmente la palabra "Rol" desde la interfaz de médico, cuando ve la lista de sus pacientes. 
+                  <>
                   <strong>Rol:</strong> {usuario.role}
-                </Card.Text>
+                  </>
+                )}
+              </Card.Text>
               </Card.Body>
             </Card>
           </Col>
