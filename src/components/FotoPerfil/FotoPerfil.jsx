@@ -10,7 +10,7 @@ const imagenesPorRol = {
 };
 
 function FotoPerfil({ rol, size = 128 }) {
-  const imagenSrc = imagenesPorRol[rol];
+  const imagenSrc = imagenesPorRol[rol] || imagenesPorRol["paciente"];
 
   return (
     <Container className="p-0">
