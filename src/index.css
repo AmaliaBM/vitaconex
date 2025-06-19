@@ -365,7 +365,22 @@ footer a:hover {
   justify-content: center;
   align-items: center;
 }
+/* Foto de perfil */
+.perfil-foto {
+  width: 100%;
+  aspect-ratio: 1 / 1;            /* Mantiene forma cuadrada */
+  max-width: 150px;
+  object-fit: cover;             /* Asegura buen encuadre */
+  border: 1px solid #000000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;           /* Círculo perfecto */
+}
 
+@media (min-width: 768px) {
+  .perfil-foto {
+    max-width: 180px;
+  }
+}
 
 /* Responsive */
 @media (max-width: 576px) {

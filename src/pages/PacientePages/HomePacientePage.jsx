@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import CustomCharts from "../../components/Charts/CustomCharts";
 import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
+import FotoPerfil from "../../components/FotoPerfil/FotoPerfil";
 import { AuthContext } from "../../context/auth.context";
 import service from "../../services/service.config";
 
@@ -20,7 +21,6 @@ function HomePacientePage() {
 
     const fetchJournals = async () => {
       try {
-        // Traemos las últimas 3 entradas ordenadas por fecha descendente
         const response = await service.get("/pacientes/journals?limit=3&sort=-fecha");
         setJournals(response.data);
       } catch (error) {
@@ -44,22 +44,30 @@ function HomePacientePage() {
 
   const primerLinea = (texto) => {
     if (!texto) return "";
-    return texto.split("\n")[0].slice(0, 100); // hasta 100 caracteres de la primera línea
+    return texto.split("\n")[0].slice(0, 100);
   };
 
   return (
     <div className="container mt-4 mb-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="mb-0">👋 Bienvenido/a {user?.name || "usuario"}</h5>
+      {/* Encabezado con imagen y saludo */}
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <div className="d-flex align-items-center">
+          <FotoPerfil rol="paciente" />
+          <h5 className="mb-0 ms-3">Bienvenido/a {user?.name || "usuario"}</h5>
+        </div>
         <Button variant="outline-danger" size="sm" onClick={handleLogout}>
           Cerrar sesión
         </Button>
       </div>
+
       <CustomCharts />
+
       <Card className="text-center mb-4">
         <Card.Body>
           <Card.Title>📅 Tus citas</Card.Title>
-          <Card.Text>Aquí puedes ver tus próximas citas y navegar por tu espacio.</Card.Text>
+          <Card.Text>
+            Aquí puedes ver tus próximas citas y navegar por tu espacio.
+          </Card.Text>
         </Card.Body>
       </Card>
 

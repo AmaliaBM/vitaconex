@@ -21,8 +21,6 @@ function CustomCharts() {
         const response = await service.get("/pacientes/journals");
 
         const entries = response.data;
-
-        // Contamos cuántas veces aparece cada estado de ánimo
         const conteo = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
         entries.forEach((entry) => {
           if (entry.estadoAnimo >= 1 && entry.estadoAnimo <= 5) {
@@ -30,7 +28,6 @@ function CustomCharts() {
           }
         });
 
-        // Datos para Chart.js
         const labels = Object.values(estadoLabels);
         const data = Object.values(conteo);
 
@@ -58,45 +55,40 @@ function CustomCharts() {
               },
             ],
           },
-          options: {
-            responsive: true,
-            animation: {
-              duration: 1000,
-              easing: "easeOutQuart",
+                  options: {
+          responsive: true,
+          animation: {
+            duration: 1000,
+            easing: "easeOutQuart",
+          },
+          plugins: {
+            legend: {
+              display: false,  // <-- Aquí deshabilitamos la leyenda
             },
-            plugins: {
-              legend: {
-                labels: {
-                  font: {
-                    size: 16,
-                  },
+          },
+          scales: {
+            x: {
+              ticks: {
+                font: {
+                  size: 18,
                 },
+                color: "#333",
+              },
+              grid: {
+                display: false,
               },
             },
-            scales: {
-              x: {
-                ticks: {
-                  font: {
-                    size: 18, // Más grande para emojis y texto
-                  },
-                  color: "#333", // Contraste accesible
-                },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                display: false,
               },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  stepSize: 1,
-                  font: {
-                    size: 14,
-                  },
-                  color: "#333",
-                },
-                grid: {
-                  color: "#e0e0e0",
-                },
+              grid: {
+                display: false,
               },
             },
           },
+        },
         });
       } catch (err) {
         console.error("Error al obtener los datos del journaling:", err);
@@ -122,3 +114,4 @@ function CustomCharts() {
 }
 
 export default CustomCharts;
+

@@ -4,8 +4,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListaCitas from "../../components/ListaCitas/ListaCitas";
 import Reloj from "../../components/Reloj/Reloj";
+import FotoPerfil from "../../components/FotoPerfil/FotoPerfil";
+import SpinnerButton from "../../components/SpinnerButton/SpinnerButton";
 import { AuthContext } from "../../context/auth.context";
-import SpinnerButton from "../../components/SpinnerButton/SpinnerButton"; 
 
 function HomeSanitarioPage() {
   const { user, isLoading, logOutUser } = useContext(AuthContext);
@@ -18,29 +19,35 @@ function HomeSanitarioPage() {
 
   return (
     <div className="container mt-4 mb-5">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="mb-0">👨‍⚕️ Bienvenido/a {user?.name || "usuario"}</h5>
+      {/* Bienvenida con imagen de perfil */}
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <div className="d-flex align-items-center">
+          <FotoPerfil rol="sanitario" />
+          <h5 className="mb-0 ms-3">Bienvenido/a {user?.name || "usuario"}</h5>
+        </div>
         <Button variant="outline-danger" size="sm" onClick={handleLogout}>
           Cerrar sesión
         </Button>
       </div>
 
+      {/* Tarjeta de próximas citas con reloj */}
       <Card className="text-center mb-4">
         <Card.Body>
-        <div className="d-flex align-items-center justify-content-between flex-wrap">
-          <div>
-            <Card.Title>📅 Tus próximas citas</Card.Title>
-            <Card.Text>
-              Aquí puedes consultar las citas que te han sido agendadas.
-            </Card.Text>
+          <div className="d-flex align-items-center justify-content-between flex-wrap">
+            <div>
+              <Card.Title>📅 Tus próximas citas</Card.Title>
+              <Card.Text>
+                Aquí puedes consultar las citas que te han sido agendadas.
+              </Card.Text>
+            </div>
+            <div className="ms-3">
+              <Reloj />
+            </div>
           </div>
-          <div className="ms-3">
-            <Reloj />
-          </div>
-        </div>
-      </Card.Body>
+        </Card.Body>
       </Card>
 
+      {/* Lista de citas */}
       {!isLoading ? (
         <ListaCitas />
       ) : (
@@ -53,4 +60,5 @@ function HomeSanitarioPage() {
 }
 
 export default HomeSanitarioPage;
+
 
