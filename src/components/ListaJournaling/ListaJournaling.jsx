@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import SpinnerButton from "../SpinnerButton/SpinnerButton";
+/*Qué significa moodEmojis[entry.estadoAnimo] || "❓" */
 
 function ListaJournaling({ pacienteId, refresh, onRefresh }) {
   const { user } = useContext(AuthContext);
@@ -143,7 +144,6 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
                   </>
                 ) : (
                   <>
-                  //*Qué significa {moodEmojis[entry.estadoAnimo] || "❓"} Toma el estado de ánimo de la entrada (entry.estadoAnimo, por ejemplo 3). Lo usa como índice dentro de un objeto o array llamado moodEmojis
                     <Card.Text>
                       <span style={{ fontSize: "1.5rem", marginRight: "0.5rem" }}>
                         {moodEmojis[entry.estadoAnimo] || "❓"}
