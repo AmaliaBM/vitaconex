@@ -215,7 +215,7 @@ function AddFormCitas() {
                   : "bg-light"
               }`}
             >
-              <Card.Body>
+              <Card.Body> 
                 <Card.Title className="fs-6">
                   {new Date(a.datetime).toLocaleString()}
                 </Card.Title>
@@ -225,11 +225,11 @@ function AddFormCitas() {
                   {a.pacienteId?.name} {a.pacienteId?.lastname} 
                 </div>
 
-                <div className="mb-1">
+                <div className="mb-1"> 
                   <strong>Médico:</strong><br />
                   {a.medicoId?.name} {a.medicoId?.lastname}
                 </div>
-                //*optional chaining (?.), una sintaxis que verifica que pacienteId no sea undefined o null antes de acceder a .name.
+               
                 <div className="mb-2">
                   <strong>Estado:</strong>{" "}
                   {a.estado === "confirmado" ? "Confirmado ✔" : "Cancelado ✖"}
@@ -258,7 +258,7 @@ function AddFormCitas() {
       </Row>
     </Card>
   );
-}
+}//optional chaining ?, una sintaxis que verifica que pacienteId no sea undefined o null antes de acceder a .name.
 
 export default AddFormCitas;
 
