@@ -79,7 +79,7 @@ function AddFormJournaling({ onEntrySaved }) {
               placeholder="Escribe cómo te sientes hoy"
               value={diario}
               onChange={(e) => setDiario(e.target.value)}
-            /> /
+            />
           </FloatingLabel>
         </Col>
       </Row>
