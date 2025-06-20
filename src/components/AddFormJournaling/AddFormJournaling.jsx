@@ -70,7 +70,7 @@ function AddFormJournaling({ onEntrySaved }) {
         </Col>
       </Row>
 
-      <Row className="mb-3"> //*setDiario es una función para actualizar el estado en un componente de React. Está asociado con un hook de estado 
+      <Row className="mb-3"> 
         <Col>
           <FloatingLabel controlId="diario" label="Escribe tu entrada...">
             <Form.Control
@@ -91,7 +91,7 @@ function AddFormJournaling({ onEntrySaved }) {
       </div>
     </Form>
   );
-}
+} //setDiario es una función para actualizar el estado en un componente de React. Está asociado con un hook de estado
 
 export default AddFormJournaling;
 
