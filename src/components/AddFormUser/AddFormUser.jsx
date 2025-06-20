@@ -46,6 +46,10 @@ function AddFormUser() {
     }));
 
     // Si cambia el rol a distinto de paciente, limpiar el campo assignedSanitarios
+    /*setFormData es una función para actualizar el estado (usada con useState).
+    Le estás pasando una función como argumento, que recibe prev, es decir, el estado anterior.
+    ...prev es spread syntax: copia todas las propiedades del estado anterior (prev) en el nuevo objeto.
+    Luego, se sobrescribe la propiedad assignedSanitarios con un string vacío ("").*/
     if (name === "role" && value !== "paciente") {
       setFormData((prev) => ({
         ...prev,
@@ -74,7 +78,7 @@ function AddFormUser() {
       console.error(err);
       setError(err.response?.data?.msg || "Error al crear usuario.");
     }
-  };
+  }; /*esperar 1500 milisegundos, o sea 1.5 segundos, antes de ejecutar el código dentro del setTimeout */
 
   if (loading) return <Spinner animation="border" />;
 
@@ -152,7 +156,7 @@ function AddFormUser() {
             <option value="admin">Administrador</option>
           </Form.Select>
         </Form.Group>
-
+ //*El s es el nombre de una variable temporal que representa cada elemento dentro del array sanitarios. 
         {formData.role === "paciente" && (
           <Form.Group className="mb-3">
             <Form.Label>Asignar sanitario</Form.Label>

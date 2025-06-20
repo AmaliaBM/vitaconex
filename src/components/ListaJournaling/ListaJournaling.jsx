@@ -52,7 +52,7 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
 
     try {
       await service.delete(`/pacientes/journals/${id}`);
-      if (onRefresh) onRefresh();
+      if (onRefresh) onRefresh(); /*es una función que debe ejecutarse para refrescar (actualizar) la interfaz*/
     } catch (error) {
       console.error("Error al eliminar la entrada:", error);
       alert("Error al eliminar la entrada, intenta más tarde.");
@@ -143,6 +143,7 @@ function ListaJournaling({ pacienteId, refresh, onRefresh }) {
                   </>
                 ) : (
                   <>
+                  //*Qué significa {moodEmojis[entry.estadoAnimo] || "❓"} Toma el estado de ánimo de la entrada (entry.estadoAnimo, por ejemplo 3). Lo usa como índice dentro de un objeto o array llamado moodEmojis
                     <Card.Text>
                       <span style={{ fontSize: "1.5rem", marginRight: "0.5rem" }}>
                         {moodEmojis[entry.estadoAnimo] || "❓"}

@@ -15,6 +15,13 @@ function CustomCharts() {
   const chartInstanceRef = useRef(null);
   const [error, setError] = useState(null);
 
+    /*useEffect es un hook de React que permite ejecutar código cuando el componente se monta o cuando cambian ciertas variables.
+   Se define una función asíncrona llamada fetchAndRenderChart para obtener datos del servidor y preparar la lógica del gráfico
+    Se guarda la lista de entradas del diario (journals) que devuelve el backend.
+    Este array contiene objetos
+    Se crea un objeto conteo que servirá para contar cuántas veces se repite cada estado de ánimo del 1 al 5.
+    */
+
   useEffect(() => {
     const fetchAndRenderChart = async () => {
       try {

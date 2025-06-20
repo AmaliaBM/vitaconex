@@ -43,7 +43,7 @@ function TabNavegacionTres() {
   };
 
   return (
-    <Tabs
+    <Tabs /* Cada <Tab> dentro de <Tabs> tiene una prop llamada eventKey,activeKey controla qué pestaña está activa en ese momento. */
         activeKey={activeKey}
         onSelect={handleSelect}
         id="tabs-navegacion"

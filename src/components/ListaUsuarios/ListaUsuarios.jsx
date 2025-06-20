@@ -50,7 +50,7 @@ useEffect(() => {
       if (user?.role === "admin") {
         return usuario.isActive === mostrarSoloActivos;
       } else {
-        // Para sanitarios o pacientes, solo mostrar activos (o puedes ajustar)
+        // Para sanitarios o pacientes, solo mostrar activos
         return usuario.isActive;
       }
     });

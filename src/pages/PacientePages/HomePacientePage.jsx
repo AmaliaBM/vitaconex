@@ -109,7 +109,7 @@ function HomePacientePage() {
           ) : (
             journals.map((entry) => (
               <div key={entry._id} className="mb-3">
-                <strong>{new Date(entry.fecha || entry.date).toLocaleDateString()}</strong>
+                <strong>{new Date(entry.fecha || entry.date).toLocaleDateString()}</strong> //*toLocaleDateString convierte esa fecha en una cadena que se verá
                 <p>{primerLinea(entry.diario || entry.content)}...</p>
               </div>
             ))

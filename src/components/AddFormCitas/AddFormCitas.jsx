@@ -203,14 +203,14 @@ function AddFormCitas() {
       <hr />
       <h4 className="mt-4">Lista de Citas</h4>
 
-      <Row className="g-3">
+      <Row className="g-3"> //*props de diseño responsive de Bootstrap *//
         {appointments.map((a) => (
-          <Col key={a._id} xs={12} md={6} lg={4}>
+          <Col key={a._id} xs={12} md={6} lg={4}> 
             <Card
               className={`shadow-sm border-0 p-2 mb-2 small ${
                 a.estado === "confirmado"
                   ? "bg-confirmado text-dark"
-                  : a.estado === "cancelado"
+                  : a.estado === "cancelado" //Se refiere al estado de la cita actual (a representa una cita dentro de .map()).
                   ? "bg-cancelado text-dark"
                   : "bg-light"
               }`}
@@ -220,16 +220,16 @@ function AddFormCitas() {
                   {new Date(a.datetime).toLocaleString()}
                 </Card.Title>
 
-                <div className="mb-1">
+                <div className="mb-1"> 
                   <strong>Paciente:</strong><br />
-                  {a.pacienteId?.name} {a.pacienteId?.lastname}
+                  {a.pacienteId?.name} {a.pacienteId?.lastname} 
                 </div>
 
                 <div className="mb-1">
                   <strong>Médico:</strong><br />
                   {a.medicoId?.name} {a.medicoId?.lastname}
                 </div>
-
+                //*optional chaining (?.), una sintaxis que verifica que pacienteId no sea undefined o null antes de acceder a .name.
                 <div className="mb-2">
                   <strong>Estado:</strong>{" "}
                   {a.estado === "confirmado" ? "Confirmado ✔" : "Cancelado ✖"}

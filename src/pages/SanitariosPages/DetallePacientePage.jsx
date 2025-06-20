@@ -98,7 +98,7 @@ function DetallePacientePage() {
         </Col>
       </Row>
 
-      {/* Journalings */}
+      {/* Journalings j. */}
       <h4 className="mt-4 mb-3">Journalings</h4>
       <Row className="g-3">
         {journalings.map(j => (
@@ -117,7 +117,7 @@ function DetallePacientePage() {
         ))}
       </Row>
 
-      {/* Medical Records */}
+      {/* Medical Records r. */}
       <h4 className="mt-5 mb-3">Historial Médico</h4>
       <Row className="g-3">
         {records.map(r => (

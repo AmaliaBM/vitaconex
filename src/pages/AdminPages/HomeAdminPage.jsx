@@ -50,7 +50,9 @@ function HomeAdminPage() {
         </Card.Body>
       </Card>
 
-      {/* Lista de citas */}
+      {/* Lista de citas: Este código decide qué mostrar según el estado isLoading.
+        Si los datos ya están listos (isLoading es falso), muestra la lista de citas.
+        Si todavía están cargando (isLoading es verdadero), muestra un spinner para que el usuario sepa que espere. */}
       {!isLoading ? (
         <ListaCitas rol="admin" />
       ) : (
