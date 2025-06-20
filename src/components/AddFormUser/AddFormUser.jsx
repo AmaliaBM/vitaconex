@@ -156,7 +156,7 @@ function AddFormUser() {
             <option value="admin">Administrador</option>
           </Form.Select>
         </Form.Group>
- //*El s es el nombre de una variable temporal que representa cada elemento dentro del array sanitarios. 
+{/* El s es el nombre de una variable temporal que representa cada elemento dentro del array sanitarios. */}
         {formData.role === "paciente" && (
           <Form.Group className="mb-3">
             <Form.Label>Asignar sanitario</Form.Label>
